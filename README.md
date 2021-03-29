@@ -1,6 +1,6 @@
 # IceScanner - Artificial spin ice analysis toolbox
 
-MATLAB application containg tools to analyze XMCD-PEEM images of artificial spin ice arrays.
+## MATLAB application containg tools to analyze XMCD-PEEM images of artificial spin ice arrays.
 
 This application contains several functions that can be used to analyze artificial spin ice arrays with square, brickwork, and Kagome geometries. By providing the application reference topography images of the ASI vertices, this application can perform automated vertex detection using the Earth Movers Distance and perform subsequent nanomagnet position/magnetization detection as well as map each nanomagnet to points in an ideal Cartesian/hexagonal coordinate system. The application can use this information to output counts of vertex types and produce a corresponding magnetic structure factor image.
 
