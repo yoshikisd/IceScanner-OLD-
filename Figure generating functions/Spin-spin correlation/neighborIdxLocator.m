@@ -23,11 +23,7 @@ function neighborIdxLocator(app)
     end
     currentStatus = uiprogressdlg(app.IceScannerUI,'Title','Spin-spin correlation',...
         'Message',sprintf('%s\n\n%s','Identifying n-th nearest neighbors for each nanomagnet.',...
-        'Results are being archived as a movie. This will take a while.'));
-    v = VideoWriter(sprintf('%sNbr',app.dirImages),'Archival');
-    v.FrameRate = 10;
-    open(v);
-    f = figure('Visible','off');
+        'This may take a while.'));
     switch app.vd.typeASI
         case 'Kagome'
             for alpha = 1:length(idx)
@@ -65,68 +61,19 @@ function neighborIdxLocator(app)
                 app.vd.magnet(alpha).nbr2 = find(distToIdx >= 0.95*dist2 & distToIdx <= 1.05*dist2);
                 app.vd.magnet(alpha).nbr7 = find(distToIdx >= 0.95*dist7 & distToIdx <= 1.05*dist7);
                 % For the nu and delta magnets, first identify all magnets that are dist3 = dist4 away from alpha
-                deltaNu = find(distToIdx >= 0.95*dist3 & distToIdx <= 1.05*dist3);
+                deltaNu = find(distToIdx >= 0.99*dist3 & distToIdx <= 1.01*dist3);
                 % Delta magnets are separated from the alpha magnet by 1 magnet (beta), 
                 % whereas the nu magnet is separated by 2 (beta and gamma).
                 % Using the information acquired about the beta magnet, we can simply look for which magnet indices in deltaNu
                 % share at least 1 vertex with the same index
                 mat_34 = vertcat(app.vd.magnet(deltaNu).nbrVertexInd);
-                idx2 = app.vd.magnet(alpha).nbr2;
-                mat_2 = vertcat(app.vd.magnet(idx2).nbrVertexInd);
+                idx1 = app.vd.magnet(alpha).nbr1;
+                mat_2 = vertcat(app.vd.magnet(idx1).nbrVertexInd);
                 compare_34_2 = ismember(mat_34,mat_2);
-                isNbr4 = compare_34_2(:,1) & compare_34_2(:,2);
-                app.vd.magnet(alpha).nbr4 = deltaNu(isNbr4);
-                app.vd.magnet(alpha).nbr3 = deltaNu(~isNbr4);
-
-                % Plot
-                if alpha == 1
-                    f.Position = [10 10 1000 1000];
-                    axes('Position',[0,0,1,1]);
-                    hold on
-                    imshow(mat2gray(app.vd.xmcd));
-                    quiver(app.vd.whiteOffsetX,app.vd.whiteOffsetY,app.vd.whiteVectorX,app.vd.whiteVectorY,'b',...
-                        'AutoScale','off','LineWidth',1);
-                    quiver(app.vd.blackOffsetX,app.vd.blackOffsetY,app.vd.blackVectorX,app.vd.blackVectorY,'r',...
-                        'AutoScale','off','LineWidth',1);
-                end
-                % Alpha
-                pltAlpha = text(vertcat(app.vd.magnet(alpha).colXPos),vertcat(app.vd.magnet(alpha).rowYPos),...
-                    '\alpha','Color','green','FontSize',15,'FontWeight','bold');
-                % Nbr1 "Beta"
-                pltNbr1 = text(vertcat(app.vd.magnet(app.vd.magnet(alpha).nbr1).colXPos),vertcat(app.vd.magnet(app.vd.magnet(alpha).nbr1).rowYPos),...
-                    '\beta','Color','green','FontSize',15,'FontWeight','bold');
-                % Nbr2 "Gamma"
-                pltNbr2 = text(vertcat(app.vd.magnet(app.vd.magnet(alpha).nbr2).colXPos),vertcat(app.vd.magnet(app.vd.magnet(alpha).nbr2).rowYPos),...
-                    '\gamma','Color','green','FontSize',15,'FontWeight','bold');
-                % Nbr3 "Nu"
-                pltNbr3 = text(vertcat(app.vd.magnet(app.vd.magnet(alpha).nbr3).colXPos),vertcat(app.vd.magnet(app.vd.magnet(alpha).nbr3).rowYPos),...
-                    '\nu','Color','green','FontSize',15,'FontWeight','bold');
-                % Nbr4 "Delta"
-                pltNbr4 = text(vertcat(app.vd.magnet(app.vd.magnet(alpha).nbr4).colXPos),vertcat(app.vd.magnet(app.vd.magnet(alpha).nbr4).rowYPos),...
-                    '\delta','Color','green','FontSize',15,'FontWeight','bold');
-                % Nbr5 "Eta"
-                pltNbr5 = text(vertcat(app.vd.magnet(app.vd.magnet(alpha).nbr5).colXPos),vertcat(app.vd.magnet(app.vd.magnet(alpha).nbr5).rowYPos),...
-                    '\eta','Color','green','FontSize',15,'FontWeight','bold');
-                % Nbr6 "Phi"
-                pltNbr6 = text(vertcat(app.vd.magnet(app.vd.magnet(alpha).nbr6).colXPos),vertcat(app.vd.magnet(app.vd.magnet(alpha).nbr6).rowYPos),...
-                    '\phi','Color','green','FontSize',15,'FontWeight','bold');
-                % Nbr7 "Tau"
-                pltNbr7 = text(vertcat(app.vd.magnet(app.vd.magnet(alpha).nbr7).colXPos),vertcat(app.vd.magnet(app.vd.magnet(alpha).nbr7).rowYPos),...
-                    '\tau','Color','green','FontSize',15,'FontWeight','bold');
-                frame = getframe(f);
-                writeVideo(v,frame);
-                delete(pltAlpha);
-                delete(pltNbr1);
-                delete(pltNbr2);
-                delete(pltNbr3);
-                delete(pltNbr4);
-                delete(pltNbr5);
-                delete(pltNbr6);
-                delete(pltNbr7);
+                isNbr3 = compare_34_2(:,1) | compare_34_2(:,2);
+                app.vd.magnet(alpha).nbr4 = deltaNu(~isNbr3);
+                app.vd.magnet(alpha).nbr3 = deltaNu(isNbr3);
                 currentStatus.Value = alpha/length(idx);
             end
     end
-    close(v);
-    close(f);
-    close(currentStatus);
 end

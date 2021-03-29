@@ -1,9 +1,9 @@
 % Generates and plots the magnetic structure factor
 function generateMSF(app,savePath,saveOption,tableOption)
     try
-        steps = app.vd.postProcess.MSF.steps;
-        qMax = app.vd.postProcess.MSF.qMax;
-        qMin = app.vd.postProcess.MSF.qMin;
+        steps = app.MSFSteps.Value;
+        qMax = app.MSFStart.Value;
+        qMin = app.MSFEnd.Value;
         range_qx = linspace(qMin*pi,qMax*pi,steps+1);
         rangeQxSize = length(range_qx);
         range_qy = range_qx;
@@ -13,6 +13,11 @@ function generateMSF(app,savePath,saveOption,tableOption)
         xR = vertcat(app.vd.magnet.xR);
         yR = vertcat(app.vd.magnet.yR);
 
+        % Remove all NaN magnets
+        xR = xR(~isnan(xSpin));
+        yR = yR(~isnan(xSpin));
+        ySpin = ySpin(~isnan(xSpin));
+        xSpin = xSpin(~isnan(xSpin));
         % Start up the parallel pool
         parPoolStatus = uiprogressdlg(app.IceScannerUI,'Title','Starting parallel pool','Message',...
             'Hang on a bit. MATLAB is initializing multiple CPU cores to accelerate the magnetic structure factor calculation.',...
@@ -104,7 +109,6 @@ function generateMSF(app,savePath,saveOption,tableOption)
                 end
                 close(convertStatus);
         end
-        statusUpdate_imagePro(app,'Finished generating MSF');
 
     catch ME
         delete(gcp('nocreate'));

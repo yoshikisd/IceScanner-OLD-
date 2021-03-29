@@ -2,7 +2,7 @@
 function overlayVertexType(app,axisFrame)
     % Then extract the positions associated with the different vertex types
     typeList = vertcat(app.vd.vertex.type);
-    indType0 = find(typeList == 0);
+    indType0 = find(isnan(typeList));
     indType1 = find(typeList == 1);
     indType2 = find(typeList == 2);
     indType3 = find(typeList == 3);

@@ -101,6 +101,9 @@ function magnetLocator(app,currIndVtx,nbrIndVtx)
 
     % XMCD entropy
     app.vd.magnet(magInd).xmcdEntropy = entropy(nanImage(~isnan(nanImage)));
+    
+    % Change ignore flag to zero
+    app.vd.magnet(magInd).ignoreFlag = false;
 
     %  Assign magnetization Ising-states
 

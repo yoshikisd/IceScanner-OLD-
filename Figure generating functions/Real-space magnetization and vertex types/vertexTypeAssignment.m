@@ -13,7 +13,7 @@ function vertexTypeAssignment(app,currIndVtx)
     verifyBrickwork = strcmp(app.vd.typeASI,'Brickwork') == 1 & length(nbrMagnetList) == 3;
     verifySquare = strcmp(app.vd.typeASI,'Square') == 1 & length(nbrMagnetList) == 4;
     if verifyKagome ~= 1 && verifyBrickwork ~=1 && verifySquare ~= 1
-        app.vd.vertex(currIndVtx).type = 0; % Add vertex charge of some absurd amount here
+        app.vd.vertex(currIndVtx).type = NaN; % Add vertex charge of some absurd amount here
         return;
     end
 
@@ -27,6 +27,13 @@ function vertexTypeAssignment(app,currIndVtx)
     for magInd = 1:length(nbrMagnetList)
         % Access the corresponding magnets and determine their relative lateral position
         accessMagIndex = nbrMagnetList(magInd);
+        
+        % Check if any magnet surrounding the vertex possesses a zero projection. 
+        % If so, immediately break out of the loop and assign a vertex charge and type equal to NaN
+        if app.vd.magnet(accessMagIndex).projection == 0
+            vertexCharge = NaN;
+            break;
+        end
 
         % If the magnet is to the left of the vertex
         if app.vd.magnet(accessMagIndex).colXPos < app.vd.vertex(currIndVtx).colXPos 

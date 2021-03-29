@@ -31,7 +31,5 @@ function exportVertexStatistics(app,savePath)
     annotation(vertexFigure,'textbox',dim,'String',verticesString,'FitBoxToText','on');
     pbaspect(ax1,[1,1,1]);
     print(vertexFigure,sprintf('%sVertex counts.tif',savePath),'-dtiffn');
-
-    statusUpdate_imagePro(app,'Finished generating vertex counts');
     close(currentStatus)
 end

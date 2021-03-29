@@ -24,6 +24,9 @@ function neighborVertexLocator(app,currIndVtx,cross1Angle,cross1PerimeterX,cross
     end
 
     % Store the indices of the neighbors
+    % Make sure that the current detectedNeighbor variable contain whatever is currently stored in nbrVertexInd
+    % Bone-head approach: append app.vd.vertex(currIndVtx).nbrVertexInd to detectedNeighbor
+    detectedNeighbor = unique([detectedNeighbor, app.vd.vertex(currIndVtx).nbrVertexInd]);
     detectedNeighbor(detectedNeighbor == currIndVtx) = [];   % Prevents detectedNeighbor from double counting the vertex of interest
     app.vd.vertex(currIndVtx).nbrVertexInd = detectedNeighbor;
 end

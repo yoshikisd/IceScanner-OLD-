@@ -1,28 +1,28 @@
 % Plots the rough detection points from the EMD calculation    
 function vertexDetect_roughDetection(app)
+    % Plot the rough detection points
+    plotStatus = uiprogressdlg(app.IceScannerUI,'Title','Plotting','Message',...
+        'Plotting the points. If this is taking a long time you should decrease the threshold.',...
+        'Indeterminate','on');
     % Reset the detection state
     app.xasGrid(:,:,2) = zeros(app.gridHeight,app.gridWidth); 
     app.xasGrid(:,:,3) = zeros(app.gridHeight,app.gridWidth);
-
     % Show the topography image
-    %cla(app.AxesASITopography);
     imshow(app.xasGrid(:,:,1),'Parent',app.AxesASITopography,'InitialMagnification','fit');
-
     % Apply thresholds
-    threshold1 = min(app.emdGlobalRef1(:,:,1),[],'all','omitnan') + app.thresholdFactor1*(std(app.emdGlobalRef1(:,:,1),0,'all','omitnan'));
+    threshold1 = min(app.emdGlobalRef1(:,:,1),[],'all','omitnan') + app.img1Threshold.Value*(std(app.emdGlobalRef1(:,:,1),0,'all','omitnan'));
     switch app.typeASI
         case {'Brickwork','Kagome'}
-            threshold2 = min(app.emdGlobalRef2(:,:,1),[],'all','omitnan') + app.thresholdFactor2*(std(app.emdGlobalRef2(:,:,1),0,'all','omitnan'));
+            threshold2 = min(app.emdGlobalRef2(:,:,1),[],'all','omitnan') + app.img2Threshold.Value*(std(app.emdGlobalRef2(:,:,1),0,'all','omitnan'));
         case 'Tetris'
-            threshold2 = min(app.emdGlobalRef2(:,:,1),[],'all','omitnan') + app.thresholdFactor2*(std(app.emdGlobalRef2(:,:,1),0,'all','omitnan'));
-            threshold3 = min(app.emdGlobalRef3(:,:,1),[],'all','omitnan') + app.thresholdFactor3*(std(app.emdGlobalRef3(:,:,1),0,'all','omitnan'));
-            threshold4 = min(app.emdGlobalRef4(:,:,1),[],'all','omitnan') + app.thresholdFactor4*(std(app.emdGlobalRef4(:,:,1),0,'all','omitnan'));
-            threshold5 = min(app.emdGlobalRef5(:,:,1),[],'all','omitnan') + app.thresholdFactor5*(std(app.emdGlobalRef5(:,:,1),0,'all','omitnan'));
-            threshold6 = min(app.emdGlobalRef6(:,:,1),[],'all','omitnan') + app.thresholdFactor6*(std(app.emdGlobalRef6(:,:,1),0,'all','omitnan'));
-            threshold7 = min(app.emdGlobalRef7(:,:,1),[],'all','omitnan') + app.thresholdFactor7*(std(app.emdGlobalRef7(:,:,1),0,'all','omitnan'));
-            threshold8 = min(app.emdGlobalRef8(:,:,1),[],'all','omitnan') + app.thresholdFactor8*(std(app.emdGlobalRef8(:,:,1),0,'all','omitnan'));
+            threshold2 = min(app.emdGlobalRef2(:,:,1),[],'all','omitnan') + app.img2Threshold.Value*(std(app.emdGlobalRef2(:,:,1),0,'all','omitnan'));
+            threshold3 = min(app.emdGlobalRef3(:,:,1),[],'all','omitnan') + app.img3Threshold.Value*(std(app.emdGlobalRef3(:,:,1),0,'all','omitnan'));
+            threshold4 = min(app.emdGlobalRef4(:,:,1),[],'all','omitnan') + app.img4Threshold.Value*(std(app.emdGlobalRef4(:,:,1),0,'all','omitnan'));
+            threshold5 = min(app.emdGlobalRef5(:,:,1),[],'all','omitnan') + app.img5Threshold.Value*(std(app.emdGlobalRef5(:,:,1),0,'all','omitnan'));
+            threshold6 = min(app.emdGlobalRef6(:,:,1),[],'all','omitnan') + app.img6Threshold.Value*(std(app.emdGlobalRef6(:,:,1),0,'all','omitnan'));
+            threshold7 = min(app.emdGlobalRef7(:,:,1),[],'all','omitnan') + app.img7Threshold.Value*(std(app.emdGlobalRef7(:,:,1),0,'all','omitnan'));
+            threshold8 = min(app.emdGlobalRef8(:,:,1),[],'all','omitnan') + app.img8Threshold.Value*(std(app.emdGlobalRef8(:,:,1),0,'all','omitnan'));
     end
-
     hold(app.AxesASITopography,'on');
     % Rough detection of minimas below a certain threshold in the reference 1 EMD
     switch app.typeASI
@@ -100,4 +100,5 @@ function vertexDetect_roughDetection(app)
     app.AxesASITopography.XLim = [0 app.gridWidth];
     app.AxesASITopography.YLim = [0 app.gridHeight];
     hold(app.AxesASITopography,'off');
+    close(plotStatus);
 end

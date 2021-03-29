@@ -25,13 +25,14 @@ function magnetScanFilter(app,currIndVtx)
                 % ------------ THIS IS VERY IMPORTANT, HEED THIS MESSAGE DANYE!!! ---------------------
                 % ------------ IF YOU USED THE OLD VERSION OF VERTEXEMDDETECT, USE THE ORDER 2 AND 1
                 % ------------ IF YOU USED THE NEW VERSION, USE THE ORDER 1 AND 2
-                switch app.vd.oldVersion
+                switch app.oldVersion.Value
                     case 'Yes'
                         k1 = 2; k2 = 1;
                     case 'No'
                         k1 = 1; k2 = 2;
                     otherwise
-                        statusUpdate_imagePro(app,'Please indicate the the version of vertex detection used.');
+                        uialert(app.iceScannerUI,'Please indicate the the version of vertex detection used.',...
+                            'Error');
                         return;
                 end
 

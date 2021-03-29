@@ -4,7 +4,7 @@ function initializeMagnet(app)
     if isfield(app.vd, 'magnet') == 1
         app.vd = rmfield(app.vd,'magnet');
     end
-
+    
     % Initialize iceMagnets as a structure
     % IceMagnets is now magnet
     app.vd.magnet(1).rowYPos = [];                          % (1) Magnet row/y location
@@ -40,4 +40,5 @@ function initializeMagnet(app)
     app.vd.magnet(1).numROIElements = [];                   % (52) Number of elements in ROI scan
     app.vd.magnet(1).spinPlotXOffset = [];                  % X offset when plotting the Ising vector using a quiver plot
     app.vd.magnet(1).spinPlotYOffset = [];                  % Y offset when plotting the Ising vector using a quiver plot
+    app.vd.magnet(1).ignoreFlag = false;                    % Indicate whether the analysis should ignore this magnet
 end
