@@ -14,11 +14,11 @@ function neighborIdxLocator(app)
         case {'Square','Brickwork','Tetris'}
             dist1 = sqrt(2);
             dist2 = 2;
-            dist3 = distS2;
+            dist3 = dist2;
             dist4 = 4;
             dist5 = 3.1623;
             dist6 = 2*sqrt(2);
-            dist7 = distS4;
+            dist7 = dist4;
             idx = [vertcat(app.vd.magnet.aInd),vertcat(app.vd.magnet.bInd)];
     end
     currentStatus = uiprogressdlg(app.IceScannerUI,'Title','Spin-spin correlation',...
