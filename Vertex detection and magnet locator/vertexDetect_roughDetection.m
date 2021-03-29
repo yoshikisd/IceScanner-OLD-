@@ -11,7 +11,7 @@ function vertexDetect_roughDetection(app)
     imshow(app.xasGrid(:,:,1),'Parent',app.AxesASITopography,'InitialMagnification','fit');
     % Apply thresholds
     threshold1 = min(app.emdGlobalRef1(:,:,1),[],'all','omitnan') + app.img1Threshold.Value*(std(app.emdGlobalRef1(:,:,1),0,'all','omitnan'));
-    switch app.typeASI
+    switch app.vd.typeASI
         case {'Brickwork','Kagome'}
             threshold2 = min(app.emdGlobalRef2(:,:,1),[],'all','omitnan') + app.img2Threshold.Value*(std(app.emdGlobalRef2(:,:,1),0,'all','omitnan'));
         case 'Tetris'
@@ -25,7 +25,7 @@ function vertexDetect_roughDetection(app)
     end
     hold(app.AxesASITopography,'on');
     % Rough detection of minimas below a certain threshold in the reference 1 EMD
-    switch app.typeASI
+    switch app.vd.typeASI
         case 'Square' % For the square ice case
             for j = 1:app.jRangeSize
                 for i = 1:app.iRangeSize

@@ -45,11 +45,6 @@ function vertexDetect_EMD(app)
     privateScalingFactor = app.EMD_scaleFactor.Value;
 
     % Message for initializing parallel core utilization
-    app.MsgVertexDetect.Value = [sprintf('%s > Finished image preprocessing. Begin EMD calculation.',datestr(now,'HH:MM:SS'));...
-        app.MsgVertexDetect.Value];
-
-    app.MsgVertexDetect.Value = [sprintf('%s > Starting parallel pool.',datestr(now,'HH:MM:SS'));...
-        app.MsgVertexDetect.Value];
     pause(1);
 
     % Initialize parallel pool
@@ -59,8 +54,6 @@ function vertexDetect_EMD(app)
         'If MATLAB requests access to your network, you can reject the request (asked while starting up parallelization).'),...
         'Indeterminate','on');
     parpool;
-    app.MsgVertexDetect.Value = [sprintf('%s > Calculating local EMD. This will take several minutes.',datestr(now,'HH:MM:SS'));...
-        app.MsgVertexDetect.Value];
     close(parPoolStatus);
     pause(1);
 
@@ -72,7 +65,7 @@ function vertexDetect_EMD(app)
     p = 1;
     try
         % The meat and potatoes: EMD Calculation
-        switch app.typeASI
+        switch app.vd.typeASI
             case 'Square' % Square ASI system
                 parfor j = 1:privateJRangeSize
                     % Initialize a matrix of zeros to temporarily store a small frame of iceGrid
@@ -290,11 +283,7 @@ function vertexDetect_EMD(app)
         errorNotice(app,ME);
         return;
     end
-    app.TabGroupEMD.SelectedTab = app.ThresholdTab;
-    app.arrow_importImg.Visible = 0;
-    app.steps_importImg.Enable = 0;
-    app.arrow_thresholding.Visible = 1;
-    app.steps_thresholding.Enable = 1;
+    
 
     % Function for the waitbar
     function nUpdateWaitbar(~)

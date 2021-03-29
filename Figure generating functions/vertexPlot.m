@@ -23,7 +23,6 @@ function vertexPlot(app,axes)
                 end
             end
         otherwise % If the ASI type has not been provided or is invalid
-            app.MsgVertexDetect.Value = [sprintf('%s > Please change the ASI type.',datestr(now,'HH:MM:SS'));app.MsgVertexDetect.Value];
             uialert(app.IceScannerUI,'Please change the ASI type.');
     end
     hold(axes,'off');
