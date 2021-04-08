@@ -157,7 +157,7 @@ function removeRedundantNbrIdx(app)
     open(v);
     f = figure('Visible','off');
     f.Position = [10 10 1000 1000];
-    axes('Position',[0,0,1,1]);
+    ax = axes('Position',[0,0,.9,.9]);
     hold on
     imshow(mat2gray(app.vd.xmcd));
     quiver(app.vd.whiteOffsetX,app.vd.whiteOffsetY,app.vd.whiteVectorX,app.vd.whiteVectorY,'b',...
@@ -168,45 +168,46 @@ function removeRedundantNbrIdx(app)
         % Plot
         if app.vd.magnet(alpha).ignoreFlag == false
             % Alpha
+            t = title(ax,sprintf('alpha = %d',alpha));
             pltAlpha = text(vertcat(app.vd.magnet(alpha).colXPos),vertcat(app.vd.magnet(alpha).rowYPos),...
-                '\alpha','Color','green','FontSize',15,'FontWeight','bold');
+                sprintf('%d',alpha),'Color','green','FontSize',15,'FontWeight','bold','HorizontalAlignment','center');
             circAlpha = plot(vertcat(app.vd.magnet(alpha).colXPos),vertcat(app.vd.magnet(alpha).rowYPos),'ro',...
                 'MarkerSize',15);
             % Nbr1 "Beta"
             finalNbr1 = app.vd.magnet(alpha).nbr1;
             finalNbr1 = finalNbr1(~ismember(finalNbr1,ignoreFlagList));
             pltNbr1 = text(vertcat(app.vd.magnet(finalNbr1).colXPos),vertcat(app.vd.magnet(finalNbr1).rowYPos),...
-                '\beta','Color','blue','FontSize',15,'FontWeight','bold');
+                '1','Color','blue','FontSize',10,'FontWeight','bold','HorizontalAlignment','center');
             % Nbr2 "Gamma"
             finalNbr2 = app.vd.magnet(alpha).nbr2;
             finalNbr2 = finalNbr2(~ismember(finalNbr2,ignoreFlagList));
             pltNbr2 = text(vertcat(app.vd.magnet(finalNbr2).colXPos),vertcat(app.vd.magnet(finalNbr2).rowYPos),...
-                '\gamma','Color','red','FontSize',15,'FontWeight','bold');
+                '2','Color','red','FontSize',10,'FontWeight','bold','HorizontalAlignment','center');
             % Nbr3 "Nu"
             finalNbr3 = app.vd.magnet(alpha).nbr3;
             finalNbr3 = finalNbr3(~ismember(finalNbr3,ignoreFlagList));
             pltNbr3 = text(vertcat(app.vd.magnet(finalNbr3).colXPos),vertcat(app.vd.magnet(finalNbr3).rowYPos),...
-                '\nu','Color','blue','FontSize',15,'FontWeight','bold');
+                '3','Color','blue','FontSize',10,'FontWeight','bold','HorizontalAlignment','center');
             % Nbr4 "Delta"
             finalNbr4 = app.vd.magnet(alpha).nbr4;
             finalNbr4 = finalNbr4(~ismember(finalNbr4,ignoreFlagList));
             pltNbr4 = text(vertcat(app.vd.magnet(finalNbr4).colXPos),vertcat(app.vd.magnet(finalNbr4).rowYPos),...
-                '\delta','Color','red','FontSize',15,'FontWeight','bold');
+                '4','Color','red','FontSize',10,'FontWeight','bold','HorizontalAlignment','center');
             % Nbr5 "Eta"
             finalNbr5 = app.vd.magnet(alpha).nbr5;
             finalNbr5 = finalNbr5(~ismember(finalNbr5,ignoreFlagList));
             pltNbr5 = text(vertcat(app.vd.magnet(finalNbr5).colXPos),vertcat(app.vd.magnet(finalNbr5).rowYPos),...
-                '\eta','Color','blue','FontSize',15,'FontWeight','bold');
+                '5','Color','blue','FontSize',10,'FontWeight','bold','HorizontalAlignment','center');
             % Nbr6 "Phi"
             finalNbr6 = app.vd.magnet(alpha).nbr6;
             finalNbr6 = finalNbr6(~ismember(finalNbr6,ignoreFlagList));
             pltNbr6 = text(vertcat(app.vd.magnet(finalNbr6).colXPos),vertcat(app.vd.magnet(finalNbr6).rowYPos),...
-                '\phi','Color','red','FontSize',15,'FontWeight','bold');
+                '6','Color','red','FontSize',10,'FontWeight','bold','HorizontalAlignment','center');
             % Nbr7 "Tau"
             finalNbr7 = app.vd.magnet(alpha).nbr7;
             finalNbr7 = finalNbr7(~ismember(finalNbr7,ignoreFlagList));
             pltNbr7 = text(vertcat(app.vd.magnet(finalNbr7).colXPos),vertcat(app.vd.magnet(finalNbr7).rowYPos),...
-                '\tau','Color','blue','FontSize',15,'FontWeight','bold');
+                '7','Color','blue','FontSize',10,'FontWeight','bold','HorizontalAlignment','center');
             frame = getframe(f);
             writeVideo(v,frame);
             delete(pltAlpha);
@@ -218,6 +219,7 @@ function removeRedundantNbrIdx(app)
             delete(pltNbr6);
             delete(pltNbr7);
             delete(circAlpha);
+            delete(t);
         end
         currentStatus.Value = alpha/length(app.vd.magnet);
     end

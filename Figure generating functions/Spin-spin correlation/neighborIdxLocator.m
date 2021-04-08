@@ -19,12 +19,58 @@ function neighborIdxLocator(app)
             dist5 = 3.1623;
             dist6 = 2*sqrt(2);
             dist7 = dist4;
-            idx = [vertcat(app.vd.magnet.aInd),vertcat(app.vd.magnet.bInd)];
+            idx = [vertcat(app.vd.magnet.xR),vertcat(app.vd.magnet.yR)];
     end
     currentStatus = uiprogressdlg(app.IceScannerUI,'Title','Spin-spin correlation',...
         'Message',sprintf('%s\n\n%s','Identifying n-th nearest neighbors for each nanomagnet.',...
         'This may take a while.'));
     switch app.vd.typeASI
+        case 'Square'
+            for alpha = 1:length(idx)
+                % Tabulate the distance to all neighboring magnets
+                vectorToIdx = idx - idx(alpha,:);
+                distToIdx = sqrt(vectorToIdx(:,1).^2 + vectorToIdx(:,2).^2);
+                % All nbr1 neighbors are dist1 away from the observed alpha mag
+                app.vd.magnet(alpha).nbr1 = find(distToIdx >= 0.95*dist1 & distToIdx <= 1.05*dist1);
+                % All nbr5 neighbors are dist5 away from the observed alpha mag
+                app.vd.magnet(alpha).nbr5 = find(distToIdx >= 0.95*dist5 & distToIdx <= 1.05*dist5);
+                % All nbr6 neighbors are dist5 away from the observed alpha mag
+                app.vd.magnet(alpha).nbr6 = find(distToIdx >= 0.95*dist6 & distToIdx <= 1.05*dist6);
+                
+                % To distinguish between nbr2 and nbr3, check whether or not the spin vector of the alpha magnet
+                % is parallel with a vector projected from the alpha to the neighbor magnet
+                nbr2or3 = find(distToIdx >= 0.95*dist2 & distToIdx <= 1.05*dist2);
+                nbr2or3_xR = vertcat(app.vd.magnet(nbr2or3).xR);
+                nbr2or3_yR = vertcat(app.vd.magnet(nbr2or3).yR);
+                nbr2or3_rij = round([nbr2or3_xR - app.vd.magnet(alpha).xR, nbr2or3_yR - app.vd.magnet(alpha).yR]);
+                [ht, wt] = size(nbr2or3_rij);
+                alpha_spin = zeros(ht,wt);
+                alpha_spin(:,1) = app.vd.magnet(alpha).xSpin;
+                alpha_spin(:,2) = app.vd.magnet(alpha).ySpin;
+                % If the dot product between the alpha spin and r_ij is zero (normal), then the observed
+                % magnet is nbr3. Otherwise it is nbr2.
+                isNbr3 = round(dot(alpha_spin, nbr2or3_rij,2)) == 0;
+                app.vd.magnet(alpha).nbr3 = nbr2or3(isNbr3);
+                app.vd.magnet(alpha).nbr2 = nbr2or3(~isNbr3);
+                
+                % To distinguish between nbr4 and nbr7, check whether or not the spin vector of the alpha magnet
+                % is parallel with a vector projected from the alpha to the neighbor magnet
+                nbr4or7 = find(distToIdx >= 0.95*dist4 & distToIdx <= 1.05*dist4);
+                nbr4or7_xR = vertcat(app.vd.magnet(nbr4or7).xR);
+                nbr4or7_yR = vertcat(app.vd.magnet(nbr4or7).yR);
+                nbr4or7_rij = round([nbr4or7_xR - app.vd.magnet(alpha).xR, nbr4or7_yR - app.vd.magnet(alpha).yR]);
+                % If the dot product between the alpha spin and r_ij is zero (normal), then the observed
+                % magnet is nbr7. Otherwise it is nbr4.
+                [ht, wt] = size(nbr4or7_rij);
+                alpha_spin = zeros(ht,wt);
+                alpha_spin(:,1) = app.vd.magnet(alpha).xSpin;
+                alpha_spin(:,2) = app.vd.magnet(alpha).ySpin;
+                isNbr7 = round(dot(alpha_spin, nbr4or7_rij, 2)) == 0;
+                app.vd.magnet(alpha).nbr7 = nbr4or7(isNbr7);
+                app.vd.magnet(alpha).nbr4 = nbr4or7(~isNbr7);
+                currentStatus.Value = alpha/length(idx);
+            end
+        
         case 'Kagome'
             for alpha = 1:length(idx)
                 % Tabulate the distance to all neighboring magnets

@@ -1,6 +1,8 @@
 % Generates a new figure to select new vertices to add
 function [iAdd, jAdd] = additionPlotter(app)
     additionFigure = figure('Name','Select location to add vertices');
+    additionFigure.MenuBar = 'none';
+    additionFigure.ToolBar = 'none';
     additionAxes = axes(additionFigure);
     movegui(additionFigure,'center');
     vertexPlot(app,additionAxes)

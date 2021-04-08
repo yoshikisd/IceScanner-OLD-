@@ -60,7 +60,8 @@ function vertexDetect_EMD(app)
     % Make a nice waitbar to tell how far the calculation has progressed
     parDataQ = parallel.pool.DataQueue;
     statusEMD = uiprogressdlg(app.IceScannerUI,'Title','EMD calculation','Message',...
-       'Calculating how dissimilar the reference images are compared to regions in the topography image. This will take several minutes.');
+       'Calculating how dissimilar the reference images are compared to regions in the topography image. This will take several minutes.',...
+       'Cancelable','off');
     afterEach(parDataQ, @nUpdateWaitbar);
     p = 1;
     try

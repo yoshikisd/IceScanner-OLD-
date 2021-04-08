@@ -3,6 +3,8 @@ function alterMagnet(app,alterMode)
     
     % Generate the image figure
     selectionFigure = figure('Name','Select magnets to mask');
+    selectionFigure.MenuBar = 'none';
+    selectionFigure.ToolBar = 'none';
     selectionAxes = axes(selectionFigure);
     movegui(selectionFigure,'center');
     switch app.drop_inspectionImage.Value
