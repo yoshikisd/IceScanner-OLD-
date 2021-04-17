@@ -81,10 +81,6 @@ function generateMSF(app,savePath,saveOption,tableOption)
                 print(msfFigure,sprintf('%sMSF.tif',savePath),'-dtiffn');
         end
         close(msfFigure);
-
-        % Preview MSF image
-        app.TabGroupAnalysis.SelectedTab = app.MagneticstructurefactorTab;
-        general_imageDisplay(app,app.AxesMSF,app.vd.postProcess.MSF.image);
         close(imageStatus);
 
         switch tableOption

@@ -24,6 +24,10 @@ function initializeMagnet(app)
     app.vd.magnet(1).nbr5 = [];                             % (26-33) Indices of the tau neighbors
     app.vd.magnet(1).nbr6 = [];                             % (34-37) Indices of the eta neighbors
     app.vd.magnet(1).nbr7 = [];                             % (38-39) Indices of the phi neighbors
+    app.vd.magnet(1).nbr4b = [];                            % 
+    app.vd.magnet(1).nbr5b = [];                            % 
+    app.vd.magnet(1).nbr6b = [];                            % 
+    app.vd.magnet(1).nbr7b = [];                            % 
     app.vd.magnet(1).aInd = [];                             % (40) Lattice position along the a-direction (see notebook)
     app.vd.magnet(1).bInd = [];                             % (41) Lattice position along the b-direction
     app.vd.magnet(1).orient = [];                           % (42) Magnet orientation, (1 == -, 2 == /, 3 == \)
@@ -41,4 +45,7 @@ function initializeMagnet(app)
     app.vd.magnet(1).spinPlotXOffset = [];                  % X offset when plotting the Ising vector using a quiver plot
     app.vd.magnet(1).spinPlotYOffset = [];                  % Y offset when plotting the Ising vector using a quiver plot
     app.vd.magnet(1).ignoreFlag = false;                    % Indicate whether the analysis should ignore this magnet
+    %app.vd.magnet(1).correlation.dot = [];                  % Saves the correlation coefficient
+    %app.vd.magnet(1).correlation.dotBinary = [];
+    %app.vd.magnet(1).correlation.ms = [];
 end

@@ -99,7 +99,7 @@ function magnetLocator(app,currIndVtx,nbrIndVtx)
     % Binary average
     app.vd.magnet(magInd).xmcdBinary = sum(app.vd.xmcdBinary(roiScan == 1))/numel(app.vd.xmcdBinary(roiScan == 1)) - 0.5;
 
-    % XMCD entropy
+    % XMCD entropy0
     app.vd.magnet(magInd).xmcdEntropy = entropy(nanImage(~isnan(nanImage)));
     
     % Change ignore flag to zero

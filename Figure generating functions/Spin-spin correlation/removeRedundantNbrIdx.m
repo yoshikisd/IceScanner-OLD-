@@ -7,6 +7,10 @@ function removeRedundantNbrIdx(app)
     pairNbr5 = zeros(length(app.vd.magnet)*10,2);
     pairNbr6 = zeros(length(app.vd.magnet)*10,2);
     pairNbr7 = zeros(length(app.vd.magnet)*10,2);
+    pairNbr4b = zeros(length(app.vd.magnet)*10,2);
+    pairNbr5b = zeros(length(app.vd.magnet)*10,2);
+    pairNbr6b = zeros(length(app.vd.magnet)*10,2);
+    pairNbr7b = zeros(length(app.vd.magnet)*10,2);
 
     % Initialize a counter variable i
     idx1 = 1;
@@ -16,6 +20,10 @@ function removeRedundantNbrIdx(app)
     idx5 = 1;
     idx6 = 1;
     idx7 = 1;
+    idx4b = 1;
+    idx5b = 1;
+    idx6b = 1;
+    idx7b = 1;
     currentStatus = uiprogressdlg(app.IceScannerUI,'Title','Spin-spin correlation',...
         'Message',sprintf('%s\n\n%s','Identifying all unique n-th nearest neighboring pairs.',...
         'This will take a while.'));
@@ -77,6 +85,41 @@ function removeRedundantNbrIdx(app)
                 idx7 = idx7+1;
             end
         end
+        switch app.vd.typeASI
+            case 'Brickwork'
+                % Index all alpha-nbr4 pairs (make sure nbr4 is not blank)
+                if ~isempty(app.vd.magnet(alpha).nbr4b)
+                    for i = 1:length(vertcat(app.vd.magnet(alpha).nbr4b))
+                        pairNbr4b(idx4b,1) = alpha;
+                        pairNbr4b(idx4b,2) = app.vd.magnet(alpha).nbr4b(i);
+                        idx4b = idx4b+1;
+                    end
+                end
+                % Index all alpha-nbr5 pairs (make sure nbr5 is not blank)
+                if ~isempty(app.vd.magnet(alpha).nbr5b)
+                    for i = 1:length(vertcat(app.vd.magnet(alpha).nbr5b))
+                        pairNbr5b(idx5b,1) = alpha;
+                        pairNbr5b(idx5b,2) = app.vd.magnet(alpha).nbr5b(i);
+                        idx5b = idx5b+1;
+                    end
+                end
+                % Index all alpha-nbr6 pairs (make sure nbr6 is not blank)
+                if ~isempty(app.vd.magnet(alpha).nbr6b)
+                    for i = 1:length(vertcat(app.vd.magnet(alpha).nbr6b))
+                        pairNbr6b(idx6b,1) = alpha;
+                        pairNbr6b(idx6b,2) = app.vd.magnet(alpha).nbr6b(i);
+                        idx6b = idx6b+1;
+                    end
+                end
+                % Index all alpha-nbr7 pairs (make sure nbr5 is not blank)
+                if ~isempty(app.vd.magnet(alpha).nbr7b)
+                    for i = 1:length(vertcat(app.vd.magnet(alpha).nbr7b))
+                        pairNbr7b(idx7b,1) = alpha;
+                        pairNbr7b(idx7b,2) = app.vd.magnet(alpha).nbr7b(i);
+                        idx7b = idx7b+1;
+                    end
+                end
+        end
     end
     
     % Get rid of entries that are zero in both columns
@@ -87,6 +130,10 @@ function removeRedundantNbrIdx(app)
     pairNbr5(pairNbr5(:,1) == 0 & pairNbr5(:,2) == 0,:) = [];
     pairNbr6(pairNbr6(:,1) == 0 & pairNbr6(:,2) == 0,:) = [];
     pairNbr7(pairNbr7(:,1) == 0 & pairNbr7(:,2) == 0,:) = [];
+    pairNbr4b(pairNbr4b(:,1) == 0 & pairNbr4b(:,2) == 0,:) = [];
+    pairNbr5b(pairNbr5b(:,1) == 0 & pairNbr5b(:,2) == 0,:) = [];
+    pairNbr6b(pairNbr6b(:,1) == 0 & pairNbr6b(:,2) == 0,:) = [];
+    pairNbr7b(pairNbr7b(:,1) == 0 & pairNbr7b(:,2) == 0,:) = [];
     
     % Sort each row so that the smallest entry is in the first column
     pairNbr1 = sort(pairNbr1,2);
@@ -96,6 +143,10 @@ function removeRedundantNbrIdx(app)
     pairNbr5 = sort(pairNbr5,2);
     pairNbr6 = sort(pairNbr6,2);
     pairNbr7 = sort(pairNbr7,2);
+    pairNbr4b = sort(pairNbr4b,2);
+    pairNbr5b = sort(pairNbr5b,2);
+    pairNbr6b = sort(pairNbr6b,2);
+    pairNbr7b = sort(pairNbr7b,2);
     
     % Identify the unique combinations of neighbors
     pairNbr1 = unique(pairNbr1,'rows');
@@ -105,6 +156,10 @@ function removeRedundantNbrIdx(app)
     pairNbr5 = unique(pairNbr5,'rows');
     pairNbr6 = unique(pairNbr6,'rows');
     pairNbr7 = unique(pairNbr7,'rows');
+    pairNbr4b = unique(pairNbr4b,'rows');
+    pairNbr5b = unique(pairNbr5b,'rows');
+    pairNbr6b = unique(pairNbr6b,'rows');
+    pairNbr7b = unique(pairNbr7b,'rows');
     
     % Make a list of all indices that have a ignore flag
     ignoreFlagList = find(vertcat(app.vd.magnet.ignoreFlag)==true);
@@ -138,6 +193,22 @@ function removeRedundantNbrIdx(app)
     nbr7Flags = nbr7Flags(:,1).*nbr7Flags(:,2);
     pairNbr7 = pairNbr7(nbr7Flags == 1,:);
     
+    nbr4bFlags = ~ismember(pairNbr4b,ignoreFlagList);
+    nbr4bFlags = nbr4bFlags(:,1).*nbr4bFlags(:,2);
+    pairNbr4b = pairNbr4b(nbr4bFlags == 1,:);
+    
+    nbr5bFlags = ~ismember(pairNbr5b,ignoreFlagList);
+    nbr5bFlags = nbr5bFlags(:,1).*nbr5bFlags(:,2);
+    pairNbr5b = pairNbr5b(nbr5bFlags == 1,:);
+    
+    nbr6bFlags = ~ismember(pairNbr6b,ignoreFlagList);
+    nbr6bFlags = nbr6bFlags(:,1).*nbr6bFlags(:,2);
+    pairNbr6b = pairNbr6b(nbr6bFlags == 1,:);
+    
+    nbr7bFlags = ~ismember(pairNbr7b,ignoreFlagList);
+    nbr7bFlags = nbr7bFlags(:,1).*nbr7bFlags(:,2);
+    pairNbr7b = pairNbr7b(nbr7bFlags == 1,:);
+    
     % Save the pair identifications
     app.vd.pairNbr1 = pairNbr1;
     app.vd.pairNbr2 = pairNbr2;
@@ -146,20 +217,25 @@ function removeRedundantNbrIdx(app)
     app.vd.pairNbr5 = pairNbr5;
     app.vd.pairNbr6 = pairNbr6;
     app.vd.pairNbr7 = pairNbr7;
+    app.vd.pairNbr4b = pairNbr4b;
+    app.vd.pairNbr5b = pairNbr5b;
+    app.vd.pairNbr6b = pairNbr6b;
+    app.vd.pairNbr7b = pairNbr7b;
     close(currentStatus);
     
     % Plot the final vertices, but make sure to omit any ignoreFlagList indices
     currentStatus = uiprogressdlg(app.IceScannerUI,'Title','Spin-spin correlation',...
         'Message',sprintf('%s\n\n%s','Results are being archived as a movie.',...
         'This will take a while.'));
-    v = VideoWriter(sprintf('%sNbr',app.dirImages),'Archival');
+    v = VideoWriter(sprintf('%sNbr',app.dirImages),'Uncompressed AVI');
     v.FrameRate = 10;
     open(v);
     f = figure('Visible','off');
     f.Position = [10 10 1000 1000];
-    ax = axes('Position',[0,0,.9,.9]);
+    ax = axes('Position',[0,0,1,1],'units','normalized');
+    axis image;
     hold on
-    imshow(mat2gray(app.vd.xmcd));
+    imshow(mat2gray(app.vd.xmcd),'Parent',ax);
     quiver(app.vd.whiteOffsetX,app.vd.whiteOffsetY,app.vd.whiteVectorX,app.vd.whiteVectorY,'b',...
         'AutoScale','off','LineWidth',1);
     quiver(app.vd.blackOffsetX,app.vd.blackOffsetY,app.vd.blackVectorX,app.vd.blackVectorY,'r',...
@@ -208,6 +284,29 @@ function removeRedundantNbrIdx(app)
             finalNbr7 = finalNbr7(~ismember(finalNbr7,ignoreFlagList));
             pltNbr7 = text(vertcat(app.vd.magnet(finalNbr7).colXPos),vertcat(app.vd.magnet(finalNbr7).rowYPos),...
                 '7','Color','blue','FontSize',10,'FontWeight','bold','HorizontalAlignment','center');
+            switch app.vd.typeASI
+                case 'Brickwork'
+                    % Nbr4b "Delta"
+                    finalNbr4b = app.vd.magnet(alpha).nbr4b;
+                    finalNbr4b = finalNbr4b(~ismember(finalNbr4b,ignoreFlagList));
+                    pltNbr4b = text(vertcat(app.vd.magnet(finalNbr4b).colXPos),vertcat(app.vd.magnet(finalNbr4b).rowYPos),...
+                        '4b','Color','red','FontSize',10,'FontWeight','bold','HorizontalAlignment','center');
+                    % Nbr5b "Eta"
+                    finalNbr5b = app.vd.magnet(alpha).nbr5b;
+                    finalNbr5b = finalNbr5b(~ismember(finalNbr5b,ignoreFlagList));
+                    pltNbr5b = text(vertcat(app.vd.magnet(finalNbr5b).colXPos),vertcat(app.vd.magnet(finalNbr5b).rowYPos),...
+                        '5b','Color','blue','FontSize',10,'FontWeight','bold','HorizontalAlignment','center');
+                    % Nbr6b "Phi"
+                    finalNbr6b = app.vd.magnet(alpha).nbr6b;
+                    finalNbr6b = finalNbr6b(~ismember(finalNbr6b,ignoreFlagList));
+                    pltNbr6b = text(vertcat(app.vd.magnet(finalNbr6b).colXPos),vertcat(app.vd.magnet(finalNbr6b).rowYPos),...
+                        '6b','Color','red','FontSize',10,'FontWeight','bold','HorizontalAlignment','center');
+                    % Nbr7b "Tau"
+                    finalNbr7b = app.vd.magnet(alpha).nbr7b;
+                    finalNbr7b = finalNbr7b(~ismember(finalNbr7b,ignoreFlagList));
+                    pltNbr7b = text(vertcat(app.vd.magnet(finalNbr7b).colXPos),vertcat(app.vd.magnet(finalNbr7b).rowYPos),...
+                        '7b','Color','blue','FontSize',10,'FontWeight','bold','HorizontalAlignment','center');
+            end
             frame = getframe(f);
             writeVideo(v,frame);
             delete(pltAlpha);
@@ -218,6 +317,13 @@ function removeRedundantNbrIdx(app)
             delete(pltNbr5);
             delete(pltNbr6);
             delete(pltNbr7);
+            switch app.vd.typeASI
+                case 'Brickwork'
+                    delete(pltNbr4b);
+                    delete(pltNbr5b);
+                    delete(pltNbr6b);
+                    delete(pltNbr7b);
+            end
             delete(circAlpha);
             delete(t);
         end

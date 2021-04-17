@@ -7,7 +7,6 @@ function magnetScanFilter(app,currIndVtx)
 
     for j = 1:length(detectedNeighbor)
         nbrIndVtx = detectedNeighbor(j);
-
         switch app.vd.typeASI
             case 'Brickwork' % For brickwork we need to differentiate between the two types of detected vertices
                 % Find the X and Y position associated with the observed detected neighbor
@@ -31,8 +30,7 @@ function magnetScanFilter(app,currIndVtx)
                     case 'No'
                         k1 = 1; k2 = 2;
                     otherwise
-                        uialert(app.iceScannerUI,'Please indicate the the version of vertex detection used.',...
-                            'Error');
+                        uialert(app.iceScannerUI,'Please indicate the the version of vertex detection used.','Error');
                         return;
                 end
 
