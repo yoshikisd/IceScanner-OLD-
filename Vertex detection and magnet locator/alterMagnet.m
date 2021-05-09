@@ -36,6 +36,8 @@ function alterMagnet(app,alterMode)
             informOperation = 'remove from subsequent analysis.';
         case 'flip'
             informOperation = 'have the magnetization reversed.';
+        case {'OWIB','OBIW','TWBB','TBBW'}
+            informOperation = sprintf('designate as a complex spin texture with domain state %s.',alterMode);
     end
 
     alterDialog = uiprogressdlg(app.IceScannerUI,'Title','Please view the pop-up figure window','Message',...
@@ -73,14 +75,18 @@ function alterMagnet(app,alterMode)
         % Perform specified operation on selected magnet
         switch alterMode
             case 'zeroize' 
-                % Set the magnetization equal to zero (background/ambiguous)
-                app.vd.magnet(selectIdx).projection = 0;
-                % Zeroize the spin vector
-                app.vd.magnet(selectIdx).xSpin = 0;
-                app.vd.magnet(selectIdx).ySpin = 0;
-                % Set corresponding vertex types to NaN
-                app.vd.vertex(vtx1).type = NaN;
-                app.vd.vertex(vtx2).type = NaN;
+                app.vd.magnet(selectIdx).domainState = 'indiscernible';
+                spinZeroize(app,selectIdx,vtx1,vtx2);
+            case {'OWIB','OBIW','TWBB','TBBW'}
+                % Flag a magnet as a CST; domain type reported in alterMode
+                app.vd.magnet(selectIdx).domainState = alterMode;
+                % Save the current spin state in the pseudospin variable
+                for j = 1:length(selectIdx)
+                    app.vd.magnet(selectIdx(j)).xPseudospin = app.vd.magnet(selectIdx(j)).xSpin;
+                    app.vd.magnet(selectIdx(j)).yPseudospin = app.vd.magnet(selectIdx(j)).ySpin;
+                end
+                % Zeroize spin
+                spinZeroize(app,selectIdx,vtx1,vtx2);
             case 'ignore'
                 % Set a flag to ignore this magnet in all subsequent analysis
                 app.vd.magnet(selectIdx).ignoreFlag = true;
@@ -121,4 +127,16 @@ function alterMagnet(app,alterMode)
     overlayMagnetization(app,app.AxesAnalysis);
     overlayVertexType(app,app.AxesAnalysis);
     close(alterDialog);
+    
+    % Alters app.vd.magnet so that the code interprets the entry as a zero-moment magnet
+    function spinZeroize(app,selectIdx,vtx1,vtx2)
+        % Set the magnetization equal to zero (background/ambiguous)
+        app.vd.magnet(selectIdx).projection = 0;
+        % Zeroize the spin vector
+        app.vd.magnet(selectIdx).xSpin = 0;
+        app.vd.magnet(selectIdx).ySpin = 0;
+        % Set corresponding vertex types to NaN
+        app.vd.vertex(vtx1).type = NaN;
+        app.vd.vertex(vtx2).type = NaN;
+    end
 end

@@ -17,17 +17,11 @@ function initializeMagnet(app)
     app.vd.magnet(1).xmcdWeighted = [];                     % (9) Weighted average of the ROI XMCD intensity
     app.vd.magnet(1).xmcdBinary = [];                       % (10) Binary XMCD intensity
     app.vd.magnet(1).xmcdEntropy = [];                      % (11) Entropy of XMCD in ROI
-    app.vd.magnet(1).nbr1 = [];                             % (12-15) Indices of the beta neighbors (see correlation length)
-    app.vd.magnet(1).nbr2 = [];                             % (16-19) Indices of the gamma neighbors
-    app.vd.magnet(1).nbr3 = [];                             % (20-23) Indices of the nu neighbors
-    app.vd.magnet(1).nbr4 = [];                             % (24-25) Indices of the delta neighbors
-    app.vd.magnet(1).nbr5 = [];                             % (26-33) Indices of the tau neighbors
-    app.vd.magnet(1).nbr6 = [];                             % (34-37) Indices of the eta neighbors
-    app.vd.magnet(1).nbr7 = [];                             % (38-39) Indices of the phi neighbors
-    app.vd.magnet(1).nbr4b = [];                            % 
-    app.vd.magnet(1).nbr5b = [];                            % 
-    app.vd.magnet(1).nbr6b = [];                            % 
-    app.vd.magnet(1).nbr7b = [];                            % 
+    app.vd.magnet(1).nbr(1).idx = [];                       % Index of the n-th nearest neighbor; convention based on Li et al. PRB 81, 092406 (2010)
+                                                            % Entry 8 = nbr4b, 9 = nbr5b, 10 = nbr6b, 11 = nbr7b
+    app.vd.magnet(1).nbr(1).c.dot = [];                     % Correlation coefficient of the n-th neighbor (dot product)
+    app.vd.magnet(1).nbr(1).c.dotBinary = [];               % Correlation coefficient of the n-th neighbor (binary dot product)
+    app.vd.magnet(1).nbr(1).c.ms = [];                      % Correlation coefficient of the n-th neighbor (binary magnetostatic)
     app.vd.magnet(1).aInd = [];                             % (40) Lattice position along the a-direction (see notebook)
     app.vd.magnet(1).bInd = [];                             % (41) Lattice position along the b-direction
     app.vd.magnet(1).orient = [];                           % (42) Magnet orientation, (1 == -, 2 == /, 3 == \)
@@ -37,6 +31,8 @@ function initializeMagnet(app)
     app.vd.magnet(1).startVertex = [];                      % (45) Index of the "start" vertex
     app.vd.magnet(1).xSpin = [];                            % (46) X-component of macrospin vector
     app.vd.magnet(1).ySpin = [];                            % (47) Y-component of macrospin vector
+    app.vd.magnet(1).xPseudospin = [];                      % X-component of macrospin vector for CST correlation calculation
+    app.vd.magnet(1).yPseudospin = [];                      % Y-component of macrospin vector for CST correlation calculation
     app.vd.magnet(1).xR = [];                               % (48) X-component of the spin position vector r
     app.vd.magnet(1).yR = [];                               % (49) Y-component of the spin position vector r
     app.vd.magnet(1).spinAngle = [];                        % (50) Angle formed between magnetization and positive x-direction
@@ -45,7 +41,5 @@ function initializeMagnet(app)
     app.vd.magnet(1).spinPlotXOffset = [];                  % X offset when plotting the Ising vector using a quiver plot
     app.vd.magnet(1).spinPlotYOffset = [];                  % Y offset when plotting the Ising vector using a quiver plot
     app.vd.magnet(1).ignoreFlag = false;                    % Indicate whether the analysis should ignore this magnet
-    %app.vd.magnet(1).correlation.dot = [];                  % Saves the correlation coefficient
-    %app.vd.magnet(1).correlation.dotBinary = [];
-    %app.vd.magnet(1).correlation.ms = [];
+    app.vd.magnet(1).domainState = [];                      % Designate what type of domain state the magnet currently possesses
 end

@@ -2,7 +2,7 @@
 function magnetLocator(app,currIndVtx,nbrIndVtx)
     % In order to run this thing, we need to look at variables associated with the currently observed vertex index "currIndVtx"
     % and the neighboring vertex index "nbrIndVtx" within the structure app.vd.vertex.
-
+    
     % X and Y position of vertex nbrIndVtx
     nbrXPos = app.vd.vertex(nbrIndVtx).colXPos;    % Formerly neighborInfo(j,1)
     nbrYPos = app.vd.vertex(nbrIndVtx).rowYPos;    % Formerly neighborInfo(j,2)
@@ -45,7 +45,8 @@ function magnetLocator(app,currIndVtx,nbrIndVtx)
     app.vd.magnet(magInd).colXPos = xMidpoint;
     app.vd.magnet(magInd).nbrVertexInd(1) = currIndVtx;
     app.vd.magnet(magInd).nbrVertexInd(2) = nbrIndVtx;
-
+    % We make an assumption that the domain state is Ising-like. This can be corrected manually in later steps
+    app.vd.magnet(magInd).domainState = "Ising";
     %% Extract magnetization from magnetic contrast image (XMCD for this case)
 
     % Create a rectangular bounding box on which to perform the grayscale scan

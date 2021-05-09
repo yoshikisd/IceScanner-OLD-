@@ -1,6 +1,6 @@
 % General plotting function to make sure the image takes up the entire frame
 function general_imageDisplay(app,refFrame,imageSelect)
-    %cla(refFrame);
+    cla(refFrame);
     [imgHeight,imgWidth,~] = size(imageSelect);
     imshow(imageSelect,'Parent',refFrame,'InitialMagnification','fit');
     refFrame.XLim = [0 imgHeight];
