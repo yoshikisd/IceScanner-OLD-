@@ -22,7 +22,7 @@ The vertex detection functionality of this app is based on Dr. Kota Yamaguchi's 
   - **READ THIS CAREFULLY WHEN USING CMAKE:** In Cmake, when you press the "Configure" button for the first time you will be asked to specify the generator for your project (some version of Visual Studio). Make sure you have that exact version of Visual Studio installed or the configure step will fail. At the time of writing this, I used Visual Studio 14 2015 and CMake version 3.7.2 x64.
 
 ## Usage
-### Initial image processing - Vertex detection
+### Preprocessing - Vertex detection tab
 - **Operating principles**: IceScanner relies on the locations of vertices in an ASI topography image to "read" the corresponding magnetic contrast image of the array (e.g., interpret magnet locations and magnetizations). Vertex detection is performed by calculating the Earth Mover's Distance (EMD) between a user-specified reference image of a vertex (**reference image**) and some location within the main topography image (**main image**). **Long story short, the EMD can be used to figure out how dissimilar regions in the main image are compared to the reference image.** If the two images are identical, EMD = 0. The value of the EMD will increase depending on how dissimilar the two images are. This, in effect, helps IceScanner to "see" vertices in the image.
 - **Performing vertex detection**: 
   1.  First, open IceScanner and wait until the graphical interface looks like the picture shown here (will attach in a bit...). This may take a while to fully update (blame MATLAB).
@@ -34,5 +34,8 @@ The vertex detection functionality of this app is based on Dr. Kota Yamaguchi's 
   6.  Once the ROI box has been positioned to the desired location, you can save this as the 1st/2nd/3rd/... reference image by clicking the button with the corresponing text. The image of the selected region should now appear above the pressed button.
   7.  Repeat steps i-iv for each unique reference image (see notes about unique vertices).
   8.  Once all unique reference images have been defined, press the "Start EMD" button.
+
+
+### "Reading" the ASI magnetizations - Image analysis tab
 
 Will update a bit more in the coming days...
