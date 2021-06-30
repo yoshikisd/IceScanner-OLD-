@@ -22,5 +22,33 @@ The vertex detection functionality of this app is based on Dr. Kota Yamaguchi's 
   - **READ THIS CAREFULLY WHEN USING CMAKE:** In Cmake, when you press the "Configure" button for the first time you will be asked to specify the generator for your project (some version of Visual Studio). Make sure you have that exact version of Visual Studio installed or the configure step will fail. At the time of writing this, I used Visual Studio 14 2015 and CMake version 3.7.2 x64.
 
 
+# Analyzing magnetic contrast images of ASIs
+The current version of IceScanner is only capable of analyzing XMCD-PEEM images of ASIs. Integration of magnetic force microscopy (MFM) images will be incorporated in the future.
 
-Will update a bit more in the coming days...
+Before starting the analysis, ensure that you have both the asymmetry (XMCD-PEEM) and corresponding single/averaged polarization (XA-PEEM) images. The latter will serve as the topography image from which IceScanner will perform vertex detection on. Also ensure that the images are 32 bit tif files; the magnetic contrast needs to vary between positive and negative values, corresponding to either parallel or antiparallel alignment with the X-ray vector.
+
+
+## Image preprocessing: Vertex detection
+
+### Step 1: Import images
+When opening IceScanner for the first time, you will automatically be directed to the "Import images" step of the vertex detection process as shown in the image below:
+
+![image](https://user-images.githubusercontent.com/37006268/124043639-446eea80-d9c0-11eb-8c72-084b22e2c000.png)
+
+To import a new image, first select the "Type" dropdown menu to select the type of ASI you wish to analyze. Currently only square, brickwork, and Kagome can be analyzed (Tetris ASI analysis is being incorportated; you can try it out at your own risk). Then select the "Topography image" button and select the XA-PEEM image file you wish to import. 
+
+The XA-PEEM image, as well as a square ROI, should be shown in the bottom half of the IceScanner UI:
+
+![image](https://user-images.githubusercontent.com/37006268/124043894-eee70d80-d9c0-11eb-84ae-33e19b76c309.png)
+
+In order for IceScanner to perform automated detection of vertices in the ASI, we must provide a reference image of a vertex. It should be noted, however, that vertex detection works best if every vertex looks identical to one another (both in terms of geometry and relative intensity). One way that we can "flatten" out the image is to perform a flatfield correction. Adjust the value of the "Flatfield sigma" by entering a value and pressing enter. The bottom half if the IceScanner UI will automatically update with the new flatfield-corrected image. Generally, the smaller you make the sigma value, the "flatter" the image becomes. 
+
+In the image shown below, the flatfield sigma was reduced from 100 to 5.
+
+![image](https://user-images.githubusercontent.com/37006268/124044216-c27fc100-d9c1-11eb-96c3-1441a9733c2a.png)
+
+Drag the ROI (blue box) so that the center of the ROI coincides with a vertex. In order to zoom into a region on the image, hover your mouse over the XA-PEEM image until five tool buttons appear on the top-right hand of the image (below the "Next (start EMD) button). Click on the magnifying glass and select a region around the ROI to zoom in. Before dragging the ROI, make sure that you deselect the magnifying glass tool by clicking it once more; the magnifying glass color should change from blue back to gray. 
+
+In the image shown below, the ROI is positioned on the center of the vertex. Also shown are the five tool buttons below the "Next (start EMD" button.
+
+![image](https://user-images.githubusercontent.com/37006268/124044317-05419900-d9c2-11eb-858b-0c52d24ffa90.png)
