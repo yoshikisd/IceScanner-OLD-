@@ -150,6 +150,14 @@ f. Set "Legacy?" to "No" (this option is used for reading data files generating 
 
 g. If the ASI is brickwork: Look at the XA-PEEM image and pay attention to the empty regions in the array. These empty regions should look like a stacking of bricks (hence the name brickwork). If the bricks generally look like they are tilted like "/", then change "BrickMode" to "/". Otherwise change it to "\".
 
-The image below shows what the UI looks like
+The image below shows what the UI looks like after selecting "Preview scan area"
 ![image](https://user-images.githubusercontent.com/37006268/124066832-36d05980-d9ee-11eb-99d5-6b41a2abaa93.png)
+
+h. To begin mapping, press "Perform neighbor detect". IceScanner will begin to map vertex positions and deduce nanomagnet positions and magnetizations. Additionally, the vertex types will also be labeled with different color/shape markers.
+
+Below are a couple of example results when the ROI is able to capture all nearest neighboring vertices (left) and when the ROI is not large enough to capture all neighboring vertices (right).
+
+![image](https://user-images.githubusercontent.com/37006268/124081070-ef52c900-d9ff-11eb-91c0-e12d8e12f8b2.png)![image](https://user-images.githubusercontent.com/37006268/124081194-14473c00-da00-11eb-9e41-b9355d22fd7b.png)
+
+Once complete, press the "Next >" button.
 
