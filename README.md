@@ -161,3 +161,58 @@ Below are a couple of example results when the ROI is able to capture all neares
 
 Once complete, press the "Next >" button.
 
+### Step 4: Lattice indexing
+This step will automatically index 2D lattice coordinates to the ASI array.
+
+a. First, press the "Select" button. This will open a pop-up window with the XA-PEEM image overlain with the vertex positions similar to the one in Step 2b and 2c.
+
+b. In the pop-up window, select the center of one nanomagnet residing between two vertices. The choice of nanomagnet depends on what type of ASI system is being analyzed:
+- Square and Kagome ASI: Select the center of any magnet (ideally with horizontal orientation)
+- Brickwork ASI: Select the center of the magnet that is circled in green with neighbor magnets arranged in the manner shown in the red region in the image below. Note that this may be reversed, depending on what "BrickType" is being analyzed (see step 3g for details on "BrickType").
+
+![image](https://user-images.githubusercontent.com/37006268/124244646-04009100-dad4-11eb-8474-fc44685037cf.png)
+
+c. Once a single nanomagnet has been chosen, press the enter key. The origin of the new 2D coordinate system (0,0) is displayed in the "Analysis window".
+
+The image below shows an example of what IceScanner looks like during step 4b.
+
+![image](https://user-images.githubusercontent.com/37006268/124244976-5c379300-dad4-11eb-916a-49d35cc519ec.png)
+
+d. Once the desired point has been selected, press "Next (start mapping)". IceScanner will automatically assign all nanomagnets a unique 2D coordinate in either a Cartesian (square and brickwork) or hexagonal (Kagome) coordinate system. Once completed, the XA-PEEM image will be overlain with each nanomagnet coordinate. You will need to zoom in to the image to clearly make out the text.
+
+The image below shows an example of what IceScanner looks like after completing the lattice coordinate assignment step and zooming into a region on the XA-PEEM image.
+
+![image](https://user-images.githubusercontent.com/37006268/124245784-2a72fc00-dad5-11eb-806d-5fbb2b123a27.png)
+
+### Step 5: Final inspection
+In this step, you will have the opportunity to manually inspect the image and alter/remove erroneous nanomagnet magnetizations. 
+
+Prior to performing a task, you must select the type of image you wish to use to base your inspection/alterations off of. There are several options that can be used:
+- XAS: XA-PEEM topography image
+- XMCD: XMCD-PEEM magnetic contrast image
+- XMCD (more contrast): XMCD-PEEM image with exaggerated contrast
+- Absolute value of XMCD: Takes the absolute value of the XMCD image. Useful for identifying non-single-domain nanoislands, which will usually have a black "stripe" or "stripes" within the nanoisland.
+- ROI-Regular: Only shows regions of the XMCD-PEEM image captured within rectangular ROIs that correspond to the individual nanomagnets.
+- ROI-Averaged: Similar to ROI-Regular, but only shows the averaged intensity throughout the entire ROI.
+
+There are several magnetization modification options available for use. For each one of these options, a pop-up will appear with the inspection image overlain with nanomagnet magnetizations as well as vertex types. For all cases, click each nanomagnet you wish to perform the specified operation on and hit the enter key once complete. Nanomagnets within ~10 pixels of the specified points will be subjected to the selected operation.
+- **Set magnetic moment to zero**: Sets the nanomagnet magnetization to be zero.
+- **Mark as a complex spin texture**: Mark the nanomagnet as a complex spin state. These nanomagnets will be treated as non-existent nanomagnets for analyses performed within the Ising framework (e.g., magnetic structure factor, vertex populations). The type of complex spin state is based on the image shown below
+
+![image](https://user-images.githubusercontent.com/37006268/124247736-044e5b80-dad7-11eb-85e2-0a108b9f39cd.png)
+
+- **Remove magnet from analysis**: Treats selected nanomagnet as a non-existent entity. This is different from **Set magnetic moment to zero** in that IceScanner will deliberately **ignore** these nanomagnets. In some cases this is useful to ensure that you do not include certain elements in statistical calculations.
+- **Flip spin**: Flips the magnetization by 180 degrees.
+
+After hitting the enter key, the "Analysis window" will automatically update with the inspection image overlain with the updated magnetizations and vertex types. Any marked complex spin textures will also be shown.
+
+**If you wish to undo all modifications performed to the magnetiztaions, press the "Undo all" button**.
+
+The image below shows an example of IceScanner after a modification has been performed
+
+![image](https://user-images.githubusercontent.com/37006268/124249156-74111600-dad8-11eb-9888-662950e33eea.png)
+
+Once complete, press the "Next >" button.
+
+### Step 6: Post-processing
+
