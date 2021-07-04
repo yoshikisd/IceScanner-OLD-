@@ -1,16 +1,30 @@
-# IceScanner - Artificial spin ice analysis toolbox
+IceScanner - Artificial spin ice analysis toolbox
+=================================================
 MATLAB application containing tools to analyze XMCD-PEEM images of artificial spin ice arrays.
 
 This application contains several functions that can be used to analyze artificial spin ice arrays with square, brickwork, and Kagome geometries. By providing the application reference topography images of the ASI vertices, this application can perform automated vertex detection using the Earth Movers Distance and perform subsequent nanomagnet position/magnetization detection as well as map each nanomagnet to points in an ideal Cartesian/hexagonal coordinate system. The application can use this information to output counts of vertex types and produce a corresponding magnetic structure factor image.
 
 This package uses mexopencv functions developed by Dr. Kota Yamaguchi (https://github.com/kyamagu/mexopencv) as well as pre-built OpenCV binaries. Specifically, the files EMD.mexw64 (renamed to cvEMD.mexw64), opencv_core341.dll, and opencv_imgproc341.dll were used to perform vertex detection. For convenience, a copy of these functions have been included in this repository so that this toolbox can be executed without having to compile both OpenCV and MEXOpenCV packages.
 
-## Installation/Build
+The current version of IceScanner is only capable of analyzing XMCD-PEEM images of ASIs. Integration of magnetic force microscopy (MFM) images will be incorporated in the future.
+
+Before starting the analysis, ensure that you have both the asymmetry (XMCD-PEEM) and corresponding single/averaged polarization (XA-PEEM) images. The latter will serve as the topography image from which IceScanner will perform vertex detection on. Also ensure that the images are 32 bit tif files; the magnetic contrast needs to vary between positive and negative values, corresponding to either parallel or antiparallel alignment with the X-ray vector.
+
+Table of contents
+=================
+  - [Installation/Build](#installationbuild)
+  - [Image preprocessing: Vertex detection](#image-preprocessing-vertex-detection)
+    - [Step 1: Import images](#step-1-import-images)
+    - [Step 2: Thresholding](#step-2-thresholding)
+  - [Image processing](#image-processing)
+  - 
+Installation/Build
+==================
 Prerequisite:
 - MATLAB version R2020 or R2021a (if you plan on running the mlapp file)
 - OpenCV (3.4.1, see details below if you do not want to use the included DLL files/installer)
 
-### OpenCV and mexopencv components
+**OpenCV and mexopencv components**
 The vertex detection functionality of this app is based on Dr. Kota Yamaguchi's mexopencv, which uses the final 3.4.1 stable version of OpenCV. Consequently, certain components of OpenCV 3.4.1 need to be present on your computer for this program to function properly. There are a couple of ways to install OpenCV on to your system
 
 - **The simple method:** 
@@ -21,16 +35,11 @@ The vertex detection functionality of this app is based on Dr. Kota Yamaguchi's 
 
   - **READ THIS CAREFULLY WHEN USING CMAKE:** In Cmake, when you press the "Configure" button for the first time you will be asked to specify the generator for your project (some version of Visual Studio). Make sure you have that exact version of Visual Studio installed or the configure step will fail. At the time of writing this, I used Visual Studio 14 2015 and CMake version 3.7.2 x64.
 
+Image preprocessing: Vertex detection
+=====================================
 
-# Analyzing magnetic contrast images of ASIs
-The current version of IceScanner is only capable of analyzing XMCD-PEEM images of ASIs. Integration of magnetic force microscopy (MFM) images will be incorporated in the future.
-
-Before starting the analysis, ensure that you have both the asymmetry (XMCD-PEEM) and corresponding single/averaged polarization (XA-PEEM) images. The latter will serve as the topography image from which IceScanner will perform vertex detection on. Also ensure that the images are 32 bit tif files; the magnetic contrast needs to vary between positive and negative values, corresponding to either parallel or antiparallel alignment with the X-ray vector.
-
-
-## Image preprocessing: Vertex detection
-
-### Step 1: Import images
+Step 1: Import images
+---------------------
 a. When opening IceScanner for the first time, you will automatically be directed to the "Import images" step of the vertex detection process as shown in the image below:
 
 ![image](https://user-images.githubusercontent.com/37006268/124043639-446eea80-d9c0-11eb-8c72-084b22e2c000.png)
@@ -75,7 +84,8 @@ To further speed up the calculations you may also change the following values (t
 - "Scale (1-0.41)": This value changes how both the ROI and XA-PEEM images are scaled. Downscaling these images means there's less pixels for IceScanners to deal with (and, therefore, speeds up calculations). By default, the value is set to 0.41, which I have found to yield decent computation speed while minimizing garbage detection points. If you do decide to change the scale, you need to make sure that the final rounded width of the reference image is ODD.
 - "Skip # of pixels": This value tells IceScanner to skip a certain number of pixels after scanning a given area. In principle, the calculations should speed up by a factor of whatever number you set "Skip # of pixels" to. However, increasing this value will also reduce the ability of IceScanner to properly detect vertices.
 
-### Step 2: Thresholding
+Step 2: Thresholding
+--------------------
 Once the EMD calculation have been completed, IceScanner will move you to the "Thresholding" step window. At this point, IceScanner has internally calculated a surface where each point on the surface corresponds to how dissimilar a region on the XA-PEEM image is compared to the reference vertex. In other words, each minima on that calculated surface corresponds to a potential location of a vertex. At the moment the software is not smart enough to figure out where thise minima are in a robust manner.
 
 What you will need to do is to specify a threshold value. Below this threshold value is where the potential vertex locations are at. To do this is rather straightforward:
@@ -93,14 +103,17 @@ The image below shows an example of a manually-optimized threshold for the squar
 
 Once completed, select the "Save results" button to export the pre-processed data as a MAT file.
 
-## Image processing (first-time processing)
-If this is the first time the ASI images are subjected to this image processing step, continue reading the following instruction. If you are re-processing the images through this step again, go to section "Image processing (re-processing)".
-
+Image processing
+================
 To start the image processing wizard, click the "Image processing" tab on the top-left corner of the screen. 
 
 ![image](https://user-images.githubusercontent.com/37006268/124056818-45614580-d9db-11eb-9523-e0c483e0735d.png)
 
-### Step 1: Import
+Step 1: Import
+--------------
+### First-time processing:
+If this is the first time the ASI images are subjected to this image processing step, continue reading the following instruction. If you are re-processing the images through this step again, go to [Reprocessing](#reprocessing).
+
 a. Since this will be the first time the data is processed through this wizard, leave the dropdown menu option as "No".
 
 b. For the "Detection result file", click the "Browse" button and select the MAT file that was generated by the "Vertex detection wizard/tab".
@@ -113,6 +126,20 @@ d. Once completed, hit "Next >"
 The image below shows the IceScanner UI after steps 1a-1c have been completed.
 
 ![image](https://user-images.githubusercontent.com/37006268/124058859-07662080-d9df-11eb-81f3-29da5b2b9051.png)
+
+### Reprocessing:
+To reprocess data that have been subjected through the *entire* image processing wizard:
+
+a. Set the dropdown menu option to "Yes".
+
+b. For the "Detection result file", click the "Browse" button and select the MAT file that was generated at the end of the image processing wizard.
+
+c. Press the "Next >" button. You will be directed to the following screen:
+
+![image](https://user-images.githubusercontent.com/37006268/124374493-8f9f2c80-dc50-11eb-923b-e3876ea1151e.png)
+
+d. Select the step you wish to repeat for the analyzed data. At this time, only the [final inspection] and [post-processing] steps can be performed. **If the system is brickwork, ensure that you define the [BrickMode].**
+
 
 ### Step 2: Vertex clean-up
 In this step, we will be cleaning up point clusters surrounding the vertices. We can also manually add/remove vertices into the image in this step.
