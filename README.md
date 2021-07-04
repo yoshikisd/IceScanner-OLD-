@@ -84,6 +84,7 @@ To further speed up the calculations you may also change the following values (t
 - "Scale (1-0.41)": This value changes how both the ROI and XA-PEEM images are scaled. Downscaling these images means there's less pixels for IceScanners to deal with (and, therefore, speeds up calculations). By default, the value is set to 0.41, which I have found to yield decent computation speed while minimizing garbage detection points. If you do decide to change the scale, you need to make sure that the final rounded width of the reference image is ODD.
 - "Skip # of pixels": This value tells IceScanner to skip a certain number of pixels after scanning a given area. In principle, the calculations should speed up by a factor of whatever number you set "Skip # of pixels" to. However, increasing this value will also reduce the ability of IceScanner to properly detect vertices.
 
+
 Step 2: Thresholding
 --------------------
 Once the EMD calculation have been completed, IceScanner will move you to the "Thresholding" step window. At this point, IceScanner has internally calculated a surface where each point on the surface corresponds to how dissimilar a region on the XA-PEEM image is compared to the reference vertex. In other words, each minima on that calculated surface corresponds to a potential location of a vertex. At the moment the software is not smart enough to figure out where thise minima are in a robust manner.
@@ -102,6 +103,7 @@ The image below shows an example of a manually-optimized threshold for the squar
 ![image](https://user-images.githubusercontent.com/37006268/124050387-56a45500-d9cf-11eb-8727-cb9017d0b514.png)
 
 Once completed, select the "Save results" button to export the pre-processed data as a MAT file.
+
 
 Image processing
 ================
@@ -138,10 +140,11 @@ c. Press the "Next >" button. You will be directed to the following screen:
 
 ![image](https://user-images.githubusercontent.com/37006268/124374493-8f9f2c80-dc50-11eb-923b-e3876ea1151e.png)
 
-d. Select the step you wish to repeat for the analyzed data. At this time, only the [final inspection] and [post-processing] steps can be performed. **If the system is brickwork, ensure that you define the [BrickMode].**
+d. Select the step you wish to repeat for the analyzed data. At this time, only the [final inspection](#step-5-final-inspection) and [post-processing](#step-6-post-processing) steps can be performed. **If the system is brickwork, ensure that you define the [BrickMode](#step-3-neighbor-scan) (see step 3g).**
 
 
-### Step 2: Vertex clean-up
+Step 2: Vertex clean-up
+-----------------------
 In this step, we will be cleaning up point clusters surrounding the vertices. We can also manually add/remove vertices into the image in this step.
 
 a. For the textbox adjacent to "Minimum distance between two adjacent vertices (in pixels)", enter the value "15" and press enter. The "Analysis window" will show markers overlain on top of the XA-PEEM image. These markers represent the detected vertex positions. If multiple reference vertices are used, there will be multiple sets of markers with colors/shapes corresponding to whatever reference image those markers are associated with.
@@ -158,7 +161,8 @@ The image below shows the IceScanner UI while step 2c is being performed.
 
 ![image](https://user-images.githubusercontent.com/37006268/124060347-b6a3f700-d9e1-11eb-8e84-a492f730af4c.png)
 
-### Step 3: Neighbor scan
+Step 3: Neighbor scan
+---------------------
 To map the vertex positions to an ideal lattice, IceScanner will first attempt to define, for each vertex, the relative locations of all nearest-neighboring vertices. This is done with the use of an area scan whose shape can be altered. The goal is to shape the ROI such that only the nearest-neighboring vertices are enclosed within the ROI area.
 
 a. Keep the "Imaging technique" as "XMCD-PEEM"
@@ -188,7 +192,8 @@ Below are a couple of example results when the ROI is able to capture all neares
 
 Once complete, press the "Next >" button.
 
-### Step 4: Lattice indexing
+Step 4: Lattice indexing
+------------------------
 This step will automatically index 2D lattice coordinates to the ASI array.
 
 a. First, press the "Select" button. This will open a pop-up window with the XA-PEEM image overlain with the vertex positions similar to the one in Step 2b and 2c.
@@ -211,7 +216,8 @@ The image below shows an example of what IceScanner looks like after completing 
 
 ![image](https://user-images.githubusercontent.com/37006268/124245784-2a72fc00-dad5-11eb-806d-5fbb2b123a27.png)
 
-### Step 5: Final inspection
+Step 5: Final inspection
+------------------------
 In this step, you will have the opportunity to manually inspect the image and alter/remove erroneous nanomagnet magnetizations. 
 
 Prior to performing a task, you must select the type of image you wish to use to base your inspection/alterations off of. There are several options that can be used:
@@ -241,7 +247,8 @@ The image below shows an example of IceScanner after a modification has been per
 
 Once complete, press the "Next >" button.
 
-### Step 6: Post-processing
+Step 6: Post-processing
+-----------------------
 In this step you can specify which calculations you want IceScanner to perform to characterize the analyzed ASI image. There are several options available:
 - **Magnetic structure factor**: Outputs the magnetic reciprocal space image of the ASI. Calcualtion is based on *Östman, E. et al. Interaction modifiers in artificial spin ices. Nat. Phys. 14, 375–379 (2018)*. Note that the coordinate system used in IceScanner incorporates both vertices and nanoislands within the same system. This, in turn, means that there will always be two lattice points between each adjacent pair of nanomagnets.
   - Steps: Number of increments between the start and stop values.
