@@ -16,7 +16,7 @@ function alterMagnet(app,alterMode)
         case 'XMCD'
             backgroundImage = mat2gray(app.vd.xmcd);
         case 'XMCD (more contrast)'
-            backgroundImage = mat2gray(app.vd.xmcdBoost);
+            backgroundImage = mat2gray(mat2gray(app.vd.xmcd),[0.25,0.75]);
         case 'Absolute value of XMCD'
             backgroundImage = mat2gray(abs(app.vd.xmcd));
         case 'ROI - Regular'
@@ -26,7 +26,7 @@ function alterMagnet(app,alterMode)
     end
 
     general_imageDisplay(app,selectionAxes,backgroundImage);
-    overlayMagnetization(app,selectionAxes);
+    overlayVertexType(app,selectionAxes);
 
     % Notify the user to select points on the popup figure that will be initiated after activation of the dialog
     switch alterMode

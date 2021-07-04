@@ -12,15 +12,8 @@ function magnetScanFilter(app,currIndVtx)
                 % Find the X and Y position associated with the observed detected neighbor
                 neighborX = app.vd.vertex(nbrIndVtx).colXPos;
                 neighborY = app.vd.vertex(nbrIndVtx).rowYPos;
-
-                % Second, determine whether the observed vertex was detected by reference image 1 or 2
-
-                % Magnets oriented like a backwards "y". The magnet will ONLY EXIST if the neighboring vertex DOES NOT have
-                % a y-position greater than AND a x-position less than the observed vertex
-                % OR
-                % Magnets oriented like "lambda". The magnet will ONLY EXIST if the neighboring vertex DOES NOT have a
-                % y-position less than AND a x-position greater than the observed vertex
-
+                
+                % Legacy mode definitions of reference 1 and 2
                 % ------------ THIS IS VERY IMPORTANT, HEED THIS MESSAGE DANYE!!! ---------------------
                 % ------------ IF YOU USED THE OLD VERSION OF VERTEXEMDDETECT, USE THE ORDER 2 AND 1
                 % ------------ IF YOU USED THE NEW VERSION, USE THE ORDER 1 AND 2
@@ -34,10 +27,31 @@ function magnetScanFilter(app,currIndVtx)
                         return;
                 end
 
-                if (app.vd.vertex(currIndVtx).refImg == k1 && ~((neighborX < currentX) && (neighborY > currentY))) ||...
-                   (app.vd.vertex(currIndVtx).refImg == k2 && ~((neighborX > currentX) && (neighborY < currentY)))
-                    % Run the magnetLocator
-                    magnetLocator(app,currIndVtx,nbrIndVtx);
+                % Second, determine whether the observed vertex was detected by reference image 1 or 2
+                % First, figure out if the bricks are oriented "\" or "/"
+                switch app.brickMode.Value
+                    case '\'
+                        % Magnets oriented like a backwards "y". The magnet will ONLY EXIST if the neighboring vertex DOES NOT have
+                        % a y-position greater than AND a x-position less than the observed vertex
+                        % OR
+                        % Magnets oriented like "lambda". The magnet will ONLY EXIST if the neighboring vertex DOES NOT have a
+                        % y-position less than AND a x-position greater than the observed vertex
+                        if (app.vd.vertex(currIndVtx).refImg == k1 && ~((neighborX < currentX) && (neighborY > currentY))) ||...
+                           (app.vd.vertex(currIndVtx).refImg == k2 && ~((neighborX > currentX) && (neighborY < currentY)))
+                            % Run the magnetLocator
+                            magnetLocator(app,currIndVtx,nbrIndVtx);
+                        end
+                    case '/'
+                        % Magnets oriented like a "y". The magnet will ONLY EXIST if the neighboring vertex DOES NOT have
+                        % a y-position greater than AND a x-position greater than than the observed vertex
+                        % OR
+                        % Magnets oriented like a backwards "lambda". The magnet will ONLY EXIST if the neighboring vertex DOES NOT have a
+                        % y-position less than AND a x-position less than than the observed vertex
+                        if (app.vd.vertex(currIndVtx).refImg == k1 && ~((neighborX > currentX) && (neighborY > currentY))) ||...
+                           (app.vd.vertex(currIndVtx).refImg == k2 && ~((neighborX < currentX) && (neighborY < currentY)))
+                            % Run the magnetLocator
+                            magnetLocator(app,currIndVtx,nbrIndVtx);
+                        end
                 end
 
             case {'Square','Kagome','Tetris'}

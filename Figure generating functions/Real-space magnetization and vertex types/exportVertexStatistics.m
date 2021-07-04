@@ -20,7 +20,7 @@ function exportVertexStatistics(app,savePath)
     end
     bar(ax1,typeName,typeSum);
 
-    for i = 1:length(typeSum)-1
+    for i = 1:length(typeSum)
         text(ax1,typeName(i),typeSum(i),num2str(typeSum(i),'%0.0f'),...
            'HorizontalAlignment','center',...
            'VerticalAlignment','bottom')

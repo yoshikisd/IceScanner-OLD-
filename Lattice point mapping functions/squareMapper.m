@@ -39,6 +39,9 @@ function squareMapper(app,magNeigh,vertexMagStart,vertexMagEnd,magnet00)
 
         % Determine the new reference magnets to begin indexing of unindexed magnets
         referenceMagnet = find(vertcat(app.vd.magnet(:).indexFlag) == 1);
+        if isempty(referenceMagnet)
+            break
+        end
         for i = 1:length(referenceMagnet)
             % Identify the "end" vertex for the observed magnet
 
