@@ -215,4 +215,28 @@ The image below shows an example of IceScanner after a modification has been per
 Once complete, press the "Next >" button.
 
 ### Step 6: Post-processing
+In this step you can specify which calculations you want IceScanner to perform to characterize the analyzed ASI image. There are several options available:
+- **Magnetic structure factor**: Outputs the magnetic reciprocal space image of the ASI. Calcualtion is based on *Östman, E. et al. Interaction modifiers in artificial spin ices. Nat. Phys. 14, 375–379 (2018)*. Note that the coordinate system used in IceScanner incorporates both vertices and nanoislands within the same system. This, in turn, means that there will always be two lattice points between each adjacent pair of nanomagnets.
+  - Steps: Number of increments between the start and stop values.
+  - Start: Specify the starting reciprocal lattice unit point.
+  - End: Specify the ending reciprocal lattice unit point.
+- **Vertex and magnetization detection**
+  - Vertex counts: Outputs a bar chart with the total number of vertex types detected.
+  - Lattice coordinates: Outputs an XA-PEEM image overlain with the lattice coordinates.
+  - Contrast + detected M: Outputs an XMCD-PEEM image overlain with the detected magnetizations
+  - Contrast + vertex type: Outputs an XMCD-PEEM image overlain with both detected magnetizations and vertex types.
+- **Spin-spin correlator**: Outputs spin-spin correlation calculations
+  - Identified neighbors (movie): Outputs a movie showing all assigned n-th nearest neighbor for every nanomagnet.
+  - Local correlation map: Outputs images showing the n-th nearest neighbor correlation value for each nanomagnet. *Currently in beta; I would recommend disabling this*.
+  - **Correlation definition**: The correlator can be calculated based on different definitions of what constitutes a positive or negative correlation. If you're trying to reproduce correlation values based on a paper, make sure you understand what correlation definition was used for that paper.
+    - Dot product: Correlations are calculated as the average of the dot product between two spins: <S_i * S_j>
+    - Binary dot product: Similar to the dot product option, but the pair-wise correlation is calculated as follows
+      - If <S_i * S_j> > 0, then the correlation is 1
+      - If <S_i * S_j> < 0, then the correlation is -1
+      - If <S_i * S_j> = 0, then the correlation is 0
+    - Binary magnetostatics: Correlations are calculated based on the dipolar interaction energy, E_ij, between two spins defined as follows:
+      - If E_ij > 0, then the correlation is -1 (repulsive)
+      - If E_ij < 0, then the correlation is 1 (attractive)
+      - if E_ij = 0, then the correlation is 0 (neutral)
 
+Check all the desired post-processing options and click "Next (postprocessing)". IceScanner will ask you what directory you wish to save the files to. In addition to the specified post-processing options, IceScanner will also save a MAT file containing all the processed data. This MAT file can be used to re-analyze the data in IceScanner.
