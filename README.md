@@ -17,7 +17,15 @@ Table of contents
     - [Step 1: Import images](#step-1-import-images)
     - [Step 2: Thresholding](#step-2-thresholding)
   - [Image processing](#image-processing)
-  - 
+    - [Step 1: Import](#step-1-import)
+      - [First-time processing](#first-time-processing)
+      - [Reprocessing](#reprocessing)
+    - [Step 2: Vertex clean-up](#step-2-vertex-clean-up)
+    - [Step 3: Neighbor scan](#step-3-neighbor-scan)
+    - [Step 4: Lattice indexing](#step-4-lattice-indexing)
+    - [Step 5: Final inspection](#step-5-final-inspection)
+    - [Step 6: Post-processing](#step-6-post-processing)
+    
 Installation/Build
 ==================
 Prerequisite:
