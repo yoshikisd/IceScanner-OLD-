@@ -4,6 +4,7 @@ message: Please cite this software using these metadata.
 version: 1.0.0
 date-released: 2021-11-09
 type: software
+doi: 10.5281/zenodo.5664804 
 authors:
   - given-names: "Dayne Sasaki"
     family-names: "Sasaki"
