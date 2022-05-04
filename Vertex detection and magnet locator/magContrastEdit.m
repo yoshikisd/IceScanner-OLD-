@@ -3,6 +3,6 @@ function xmcd = magContrastEdit(xmcd,sigma,threshold)
     xmcd = imflatfield(xmcd,sigma);
     meanXMCD = mean(xmcd,'all');
     stdXMCD = std(xmcd,0,'all');
-    xmcd = mat2gray(xmcd, double(meanXMCD + stdXMCD*threshold*[-1, 1]))-0.5;
+    %xmcd = mat2gray(xmcd, double(meanXMCD + stdXMCD*threshold*[-1, 1]))-0.5;
 end
 

@@ -41,6 +41,7 @@ function neighborIdxLocator(app)
             end
             close(currentStatus2);
             for alpha = 1:length(idx)
+                reinitVar();
                 app.vd.magnet(alpha).nbr(11).idx = [];
                 % Tabulate the distance to all neighboring magnets
                 vectorToIdx = idx - idx(alpha,:);
@@ -159,6 +160,7 @@ function neighborIdxLocator(app)
             end
         case 'Square'
             for alpha = 1:length(idx)
+                reinitVar();
                 app.vd.magnet(alpha).nbr(11).idx = [];
                 % Tabulate the distance to all neighboring magnets
                 vectorToIdx = idx - idx(alpha,:);
@@ -205,6 +207,7 @@ function neighborIdxLocator(app)
             end
         case 'Kagome'
             for alpha = 1:length(idx)
+                reinitVar();
                 % Tabulate the distance to all neighboring magnets
                 vectorToIdx = idx - idx(alpha,:);
                 distToIdx = sqrt(vectorToIdx(:,1).^2 + vectorToIdx(:,2).^2);
@@ -253,5 +256,55 @@ function neighborIdxLocator(app)
                 app.vd.magnet(alpha).nbr(3).idx = deltaNu(isNbr3);
                 currentStatus.Value = alpha/length(idx);
             end
+    end
+    
+    % Reinitializes all unique variables to avoid indexing errors associated with past iteration definitions
+    function reinitVar()
+        vectorToIdx = [];
+        distToIdx = [];
+        nbr5aORb = [];
+        nbr5_aInd = [];
+        nbr5_bInd = [];
+        nbr5_aIndDelta = [];
+        nbr5_bIndDelta = [];
+        isNbr5a = [];
+        nbr6aORb = [];
+        nbr6_aInd = [];
+        nbr6_bInd = [];
+        alphaToNbr6 = [];
+        nbr1_aInd = [];
+        nbr1_bInd = [];
+        alphaToNbr1 = [];
+        isNbr6a = [];
+        nbr4or7 = [];
+        nbr4or7_xR = [];
+        nbr4or7_yR = [];
+        nbr4or7_rij = [];
+        ht = [];
+        wt = [];
+        alpha_spin = [];
+        isNbr7 = [];
+        nbr2or3 = [];
+        nbr2or3_xR = [];
+        nbr2or3_yR = [];
+        nbr2or3_rij = [];
+        isNbr3 = [];
+        nbr4or7 = [];
+        nbr4or7_xR = [];
+        nbr4or7_yR = [];
+        nbr4or7_rij = [];
+        isNbr7 = [];
+        nbr6 = [];
+        nbr6_a = [];
+        nbr6_b = [];
+        alpha2nbr6 = [];
+        [ht, wt] = size(alpha2nbr6);
+        alpha_v_R90 = [];
+        isNbr6 = [];
+        deltaNu = [];
+        mat_34 = [];
+        idx1 = [];
+        mat_2 = [];
+        compare_34_2 = [];
     end
 end

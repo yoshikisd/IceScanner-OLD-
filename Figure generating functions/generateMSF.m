@@ -108,7 +108,9 @@ function generateMSF(app,savePath,saveOption,tableOption)
 
     catch ME
         delete(gcp('nocreate'));
-        close(msfDialog);
+        if exist('msfDialog','var')
+            close(msfDialog);
+        end
         errorNotice(app,ME);
         return;
     end

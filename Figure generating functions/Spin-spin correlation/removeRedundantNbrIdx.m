@@ -59,7 +59,7 @@ function removeRedundantNbrIdx(app)
         currentStatus = uiprogressdlg(app.IceScannerUI,'Title','Spin-spin correlation',...
             'Message',sprintf('%s\n\n%s','Results are being archived as a movie.',...
             'This will take a while.'));
-        v = VideoWriter(sprintf('%sNbr',app.dirImages),'MPEG-4');
+        v = VideoWriter(sprintf('%sNbr',app.dirImages),'Motion JPEG AVI');
         v.FrameRate = 10;
         open(v);
         f = figure('Visible','off');

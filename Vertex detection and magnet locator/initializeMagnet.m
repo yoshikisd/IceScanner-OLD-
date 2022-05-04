@@ -42,4 +42,7 @@ function initializeMagnet(app)
     app.vd.magnet(1).spinPlotYOffset = [];                  % Y offset when plotting the Ising vector using a quiver plot
     app.vd.magnet(1).ignoreFlag = false;                    % Indicate whether the analysis should ignore this magnet
     app.vd.magnet(1).domainState = [];                      % Designate what type of domain state the magnet currently possesses
+    app.vd.magnet(1).uniqueTrinaryInt = [];                 % List of all unique trinary intensities in the magnet ROIs
+    app.vd.magnet(1).uniqueTrinaryInt_num = [];             % List number of unique trinary intensities in the magnet ROIs
+    app.vd.magnet(1).uniqueTrinaryInt_absSum = [];          % Take the sum of the unique trinary value magnitudes
 end

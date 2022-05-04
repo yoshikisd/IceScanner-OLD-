@@ -8,7 +8,7 @@ function vertexDetect_roughDetection(app)
     app.xasGrid(:,:,2) = zeros(app.gridHeight,app.gridWidth); 
     app.xasGrid(:,:,3) = zeros(app.gridHeight,app.gridWidth);
     % Show the topography image
-    imshow(app.xasGrid(:,:,1),'Parent',app.AxesASITopography,'InitialMagnification','fit');
+    imshow(app.xasGrid(:,:,1),'Parent',app.extWindow.axes,'InitialMagnification','fit');
     % Apply thresholds
     threshold1 = min(app.emdGlobalRef1(:,:,1),[],'all','omitnan') + app.img1Threshold.Value*(std(app.emdGlobalRef1(:,:,1),0,'all','omitnan'));
     switch app.vd.typeASI
@@ -23,7 +23,7 @@ function vertexDetect_roughDetection(app)
             threshold7 = min(app.emdGlobalRef7(:,:,1),[],'all','omitnan') + app.img7Threshold.Value*(std(app.emdGlobalRef7(:,:,1),0,'all','omitnan'));
             threshold8 = min(app.emdGlobalRef8(:,:,1),[],'all','omitnan') + app.img8Threshold.Value*(std(app.emdGlobalRef8(:,:,1),0,'all','omitnan'));
     end
-    hold(app.AxesASITopography,'on');
+    hold(app.extWindow.axes,'on');
     % Rough detection of minimas below a certain threshold in the reference 1 EMD
     switch app.vd.typeASI
         case 'Square' % For the square ice case
@@ -32,7 +32,7 @@ function vertexDetect_roughDetection(app)
                     if app.emdGlobalRef1(j,i,1) <= threshold1
                         app.xasGrid(app.emdGlobalRef1(j,i,3),app.emdGlobalRef1(j,i,2),2) = 1;                       % Indicate what frame detected this
                         app.xasGrid(app.emdGlobalRef1(j,i,3),app.emdGlobalRef1(j,i,2),3) = app.emdGlobalRef1(j,i,1);    % Store the detected intensity
-                        plot(app.AxesASITopography,app.emdGlobalRef1(j,i,2),app.emdGlobalRef1(j,i,3),'r.','MarkerSize',10)
+                        plot(app.extWindow.axes,app.emdGlobalRef1(j,i,2),app.emdGlobalRef1(j,i,3),'r.','MarkerSize',10)
                     end
                 end
             end
@@ -42,12 +42,12 @@ function vertexDetect_roughDetection(app)
                     if app.emdGlobalRef1(j,i,1) <= threshold1
                         app.xasGrid(app.emdGlobalRef1(j,i,3),app.emdGlobalRef1(j,i,2),2) = 1;                       % Indicate what frame detected this
                         app.xasGrid(app.emdGlobalRef1(j,i,3),app.emdGlobalRef1(j,i,2),3) = app.emdGlobalRef1(j,i,1);    % Store the detected intensity
-                        plot(app.AxesASITopography,app.emdGlobalRef1(j,i,2),app.emdGlobalRef1(j,i,3),'r.','MarkerSize',10)
+                        plot(app.extWindow.axes,app.emdGlobalRef1(j,i,2),app.emdGlobalRef1(j,i,3),'r.','MarkerSize',10)
                     end
                     if app.emdGlobalRef2(j,i,1) <= threshold2
                         app.xasGrid(app.emdGlobalRef2(j,i,3),app.emdGlobalRef2(j,i,2),2) = 2;                       % Indicate what frame detected this
                         app.xasGrid(app.emdGlobalRef2(j,i,3),app.emdGlobalRef2(j,i,2),3) = app.emdGlobalRef2(j,i,1);    % Store the detected intensity
-                        plot(app.AxesASITopography,app.emdGlobalRef2(j,i,2),app.emdGlobalRef2(j,i,3),'r.','MarkerSize',10)
+                        plot(app.extWindow.axes,app.emdGlobalRef2(j,i,2),app.emdGlobalRef2(j,i,3),'b.','MarkerSize',10)
                     end
                 end
             end
@@ -57,48 +57,48 @@ function vertexDetect_roughDetection(app)
                     if app.emdGlobalRef1(j,i,1) <= threshold1
                         app.xasGrid(app.emdGlobalRef1(j,i,3),app.emdGlobalRef1(j,i,2),2) = 1;                       % Indicate what frame detected this
                         app.xasGrid(app.emdGlobalRef1(j,i,3),app.emdGlobalRef1(j,i,2),3) = app.emdGlobalRef1(j,i,1);    % Store the detected intensity
-                        plot(app.AxesASITopography,app.emdGlobalRef1(j,i,2),app.emdGlobalRef1(j,i,3),'r.','MarkerSize',10)
+                        plot(app.extWindow.axes,app.emdGlobalRef1(j,i,2),app.emdGlobalRef1(j,i,3),'r.','MarkerSize',10)
                     end
                     if app.emdGlobalRef2(j,i,1) <= threshold2
                         app.xasGrid(app.emdGlobalRef2(j,i,3),app.emdGlobalRef2(j,i,2),2) = 2;                       % Indicate what frame detected this
                         app.xasGrid(app.emdGlobalRef2(j,i,3),app.emdGlobalRef2(j,i,2),3) = app.emdGlobalRef2(j,i,1);    % Store the detected intensity
-                        plot(app.AxesASITopography,app.emdGlobalRef2(j,i,2),app.emdGlobalRef2(j,i,3),'r.','MarkerSize',10)
+                        plot(app.extWindow.axes,app.emdGlobalRef2(j,i,2),app.emdGlobalRef2(j,i,3),'r.','MarkerSize',10)
                     end
                     if app.emdGlobalRef3(j,i,1) <= threshold3
                         app.xasGrid(app.emdGlobalRef3(j,i,3),app.emdGlobalRef3(j,i,2),2) = 3;                       % Indicate what frame detected this
                         app.xasGrid(app.emdGlobalRef3(j,i,3),app.emdGlobalRef3(j,i,2),3) = app.emdGlobalRef3(j,i,1);    % Store the detected intensity
-                        plot(app.AxesASITopography,app.emdGlobalRef3(j,i,2),app.emdGlobalRef3(j,i,3),'r.','MarkerSize',10)
+                        plot(app.extWindow.axes,app.emdGlobalRef3(j,i,2),app.emdGlobalRef3(j,i,3),'r.','MarkerSize',10)
                     end
                     if app.emdGlobalRef4(j,i,1) <= threshold4
                         app.xasGrid(app.emdGlobalRef4(j,i,3),app.emdGlobalRef4(j,i,2),2) = 4;                       % Indicate what frame detected this
                         app.xasGrid(app.emdGlobalRef4(j,i,3),app.emdGlobalRef4(j,i,2),3) = app.emdGlobalRef4(j,i,1);    % Store the detected intensity
-                        plot(app.AxesASITopography,app.emdGlobalRef4(j,i,2),app.emdGlobalRef4(j,i,3),'r.','MarkerSize',10)
+                        plot(app.extWindow.axes,app.emdGlobalRef4(j,i,2),app.emdGlobalRef4(j,i,3),'r.','MarkerSize',10)
                     end
                     if app.emdGlobalRef5(j,i,1) <= threshold5
                         app.xasGrid(app.emdGlobalRef5(j,i,3),app.emdGlobalRef5(j,i,2),2) = 5;                       % Indicate what frame detected this
                         app.xasGrid(app.emdGlobalRef5(j,i,3),app.emdGlobalRef5(j,i,2),3) = app.emdGlobalRef5(j,i,1);    % Store the detected intensity
-                        plot(app.AxesASITopography,app.emdGlobalRef5(j,i,2),app.emdGlobalRef5(j,i,3),'r.','MarkerSize',10)
+                        plot(app.extWindow.axes,app.emdGlobalRef5(j,i,2),app.emdGlobalRef5(j,i,3),'r.','MarkerSize',10)
                     end
                     if app.emdGlobalRef6(j,i,1) <= threshold6
                         app.xasGrid(app.emdGlobalRef6(j,i,3),app.emdGlobalRef6(j,i,2),2) = 6;                       % Indicate what frame detected this
                         app.xasGrid(app.emdGlobalRef6(j,i,3),app.emdGlobalRef6(j,i,2),3) = app.emdGlobalRef6(j,i,1);    % Store the detected intensity
-                        plot(app.AxesASITopography,app.emdGlobalRef6(j,i,2),app.emdGlobalRef6(j,i,3),'r.','MarkerSize',10)
+                        plot(app.extWindow.axes,app.emdGlobalRef6(j,i,2),app.emdGlobalRef6(j,i,3),'r.','MarkerSize',10)
                     end
                     if app.emdGlobalRef7(j,i,1) <= threshold7
                         app.xasGrid(app.emdGlobalRef7(j,i,3),app.emdGlobalRef7(j,i,2),2) = 7;                       % Indicate what frame detected this
                         app.xasGrid(app.emdGlobalRef7(j,i,3),app.emdGlobalRef7(j,i,2),3) = app.emdGlobalRef7(j,i,1);    % Store the detected intensity
-                        plot(app.AxesASITopography,app.emdGlobalRef7(j,i,2),app.emdGlobalRef7(j,i,3),'r.','MarkerSize',10)
+                        plot(app.extWindow.axes,app.emdGlobalRef7(j,i,2),app.emdGlobalRef7(j,i,3),'r.','MarkerSize',10)
                     end
                     if app.emdGlobalRef8(j,i,1) <= threshold8
                         app.xasGrid(app.emdGlobalRef8(j,i,3),app.emdGlobalRef8(j,i,2),2) = 8;                       % Indicate what frame detected this
                         app.xasGrid(app.emdGlobalRef8(j,i,3),app.emdGlobalRef8(j,i,2),3) = app.emdGlobalRef8(j,i,1);    % Store the detected intensity
-                        plot(app.AxesASITopography,app.emdGlobalRef8(j,i,2),app.emdGlobalRef8(j,i,3),'r.','MarkerSize',10)
+                        plot(app.extWindow.axes,app.emdGlobalRef8(j,i,2),app.emdGlobalRef8(j,i,3),'r.','MarkerSize',10)
                     end
                 end
             end
     end
-    app.AxesASITopography.XLim = [0 app.gridWidth];
-    app.AxesASITopography.YLim = [0 app.gridHeight];
-    hold(app.AxesASITopography,'off');
+    app.extWindow.axes.XLim = [0 app.gridWidth];
+    app.extWindow.axes.YLim = [0 app.gridHeight];
+    hold(app.extWindow.axes,'off');
     close(plotStatus);
 end
