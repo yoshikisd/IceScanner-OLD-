@@ -1,4 +1,4 @@
-IceScanner - Artificial spin ice image analysis software
+IceScanner - Artificial spin ice image analysis software (superceded by ASIWizard)
 =================================================
 MATLAB application containing tools to analyze XMCD-PEEM images of artificial spin ice arrays.
 
